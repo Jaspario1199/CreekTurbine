@@ -1,0 +1,4 @@
+# CAD: regenerate the printed parts (STEP/STL) from the parametric scripts.
+# Heavier install (pulls OpenCascade via cadquery-ocp). Only needed if you edit
+# cad/params.py and want to re-export.
+cadquery>=2.4
