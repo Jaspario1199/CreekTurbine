@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# Generated outputs (figures, renders). Regenerate with the demo/sim scripts.
+output/
+*.log
+
+# CAD build artifacts you may not want to track (STEP/STL are kept intentionally,
+# but temporary exports and previews from local runs go here)
+cad/_build/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
