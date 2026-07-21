@@ -85,6 +85,16 @@ matching — are shown explicitly, never hidden. Got a brisk, deep creek? Set
 `TURBINE_TYPE = "axial"` and the model sizes the higher-efficiency propeller
 instead. Details in **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 
+### Want an enclosed underwater box with a dry generator inside?
+
+Yes — that's a *ducted turbine with a dry nacelle*, and it's modeled in
+`ducted.py` / `scripts/box_turbine.py`. The honest punchline: a box around a
+purely *kinetic* rotor gains little (a creek's speed is worth only ~3 cm of
+head), **but building in a small elevation drop turns it into a low-head turbine
+worth ~30× more** for the same opening. Cross the wet/dry wall with a **magnetic
+coupling** (no shaft seal to leak), and mind that a submerged air box is very
+buoyant. Full write-up: **[docs/BOX_AND_DUCT.md](docs/BOX_AND_DUCT.md)**.
+
 ---
 
 ## How it works (the modules)
@@ -99,6 +109,9 @@ instead. Details in **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 4. **`energy.py`** — daily/annual Wh, battery Ah sizing, and the "what it runs" table.
 5. **`siting.py`** — float-method + cross-section math to measure your creek.
 6. **`simulator.py`** — renders all of it to PNGs (headless).
+7. **`ducted.py`** — the "enclosed underwater air box" / ducted low-head turbine:
+   flow-through-a-throat, the huge payoff of building in a little *head*, and how
+   much ballast a submerged air box needs. See **[docs/BOX_AND_DUCT.md](docs/BOX_AND_DUCT.md)**.
 
 ---
 
@@ -112,10 +125,12 @@ creekturbine/
   generator.py       # PMA cut-in velocity + Ke matching (the classic failure point)
   energy.py          # daily/annual energy, battery sizing, what-it-runs
   siting.py          # measure-your-creek math (float method, cross-section)
+  ducted.py          # enclosed-box / ducted low-head turbine + buoyancy/ballast
   simulator.py       # renders the figures (matplotlib, headless)
 scripts/
   measure_creek.py   # walk through measuring velocity & flow
   size_turbine.py    # end-to-end sizing report (+ --figs)
+  box_turbine.py     # model the enclosed underwater air-box idea
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
@@ -125,6 +140,7 @@ tests/               # 46 checks on the physics/energy/generator/siting math
 docs/
   ARCHITECTURE.md    # how the pieces fit + design decisions
   SITING.md          # measure first, then make the water faster (+ permits)
+  BOX_AND_DUCT.md    # the enclosed underwater air-box idea, costed (dry generator + head)
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan

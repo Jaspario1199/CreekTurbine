@@ -15,8 +15,9 @@ See README.md for the one-paragraph reality check, then run
 `python -m scripts.size_turbine` to size a turbine for YOUR creek.
 """
 
-from . import config, hydrokinetics, rotor, generator, energy, siting
+from . import config, hydrokinetics, rotor, generator, energy, siting, ducted
 
-__all__ = ["config", "hydrokinetics", "rotor", "generator", "energy", "siting"]
+__all__ = ["config", "hydrokinetics", "rotor", "generator", "energy", "siting",
+           "ducted"]
 
 __version__ = "0.1.0"

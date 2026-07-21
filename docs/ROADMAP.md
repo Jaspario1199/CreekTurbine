@@ -23,6 +23,9 @@ deliberately rather than by surprise.
 - **`energy.py`** — daily/annual energy, battery Ah sizing, and a "what it runs"
   table (phone → fridge).
 - **`siting.py`** — the float-method + cross-section measurement math.
+- **`ducted.py`** — the enclosed-box / ducted low-head turbine option: throat
+  flow, the payoff of adding head, and submerged-box buoyancy/ballast
+  ([BOX_AND_DUCT.md](BOX_AND_DUCT.md)).
 - **`simulator.py`** + `scripts/` — the sizing report and the figures.
 - **`cad/`** — parametric end plates, shaft coupler, generator mount (STEP+STL).
 
