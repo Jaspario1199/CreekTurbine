@@ -204,6 +204,66 @@ def savonius_schematic(cfg: CreekConfig, outdir: str) -> str:
     return path
 
 
+def self_contained_schematic(unit, outdir: str) -> str:
+    """Side-view of the all-in-one 'box with a handle' standing in the creek."""
+    import matplotlib.patches as mpatches
+    _ensure(outdir)
+
+    r = unit.report()
+    D, H = unit.box_diameter, unit.box_height
+    sub = unit.submerged_depth
+    fig, ax = plt.subplots(figsize=(5.5, 6.5))
+
+    # water
+    ax.add_patch(mpatches.Rectangle((-D * 1.6, 0), D * 3.2, sub, color=_AVAIL, alpha=0.5))
+    ax.axhline(sub, color=_WATER, lw=1.5)
+    ax.annotate("waterline", (-D * 1.55, sub), color=_WATER, fontsize=9, va="bottom")
+    for yy in (sub * 0.35, sub * 0.7):
+        ax.annotate("", xy=(-D * 0.9, yy), xytext=(-D * 1.5, yy),
+                    arrowprops=dict(arrowstyle="->", color=_GOOD, lw=2))
+    ax.annotate("flow", (-D * 1.5, sub * 0.9), color=_GOOD, fontweight="bold", fontsize=9)
+
+    # box body (dry above water, wet below)
+    ax.add_patch(mpatches.FancyBboxPatch((-D / 2, sub), D, H - sub,
+                 boxstyle="round,pad=0.005", fc="#eaf3f8", ec=_INK, lw=1.6))
+    ax.add_patch(mpatches.Rectangle((-D / 2, 0), D, sub, fc="none", ec=_INK, lw=1.6,
+                 ls="--"))
+    # handle
+    ax.add_patch(mpatches.Arc((0, H), D * 0.5, D * 0.5, theta1=0, theta2=180,
+                 color=_INK, lw=3))
+    # rotor (wet) — the only part below the waterline
+    ax.add_patch(mpatches.Ellipse((0, sub * 0.48), unit.rotor_diameter * 0.8,
+                 sub * 0.72, fc=_WATER, ec=_INK, alpha=0.75))
+
+    def label(y, text, dark):
+        ax.annotate(text, (0, y), ha="center", va="center", fontsize=9,
+                    color=(_INK if dark else "white"), fontweight="bold")
+
+    fb = H - sub  # freeboard height (dry section)
+    label(sub + fb * 0.82, "outlets · display", True)
+    label(sub + fb * 0.50, "battery", True)
+    label(sub + fb * 0.16, "generator (sealed, dry)", True)
+    label(sub * 0.48, "rotor", False)
+
+    txt = (f"Ø {D*100:.0f} cm × {H*100:.0f} cm tall\n"
+           f"rotor {r['frontal_area']:.3f} m² → ~{r['power_w']:.1f} W\n"
+           f"freeboard {r['freeboard']*100:.0f} cm dry (outlets clear)\n"
+           f"drag {r['drag_n']:.0f} N → +{r['required_base_ballast_kg']:.0f} kg base")
+    ax.annotate(txt, (D * 0.62, sub * 0.5), fontsize=9, color=_INK, va="center")
+
+    ax.set_xlim(-D * 1.7, D * 2.4)
+    ax.set_ylim(-0.05, H * 1.15)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.set_title("Self-contained unit — one box, handle on top,\nset it in the creek",
+                 fontsize=12)
+    path = os.path.join(outdir, "self_contained.png")
+    fig.tight_layout()
+    fig.savefig(path, dpi=120)
+    plt.close(fig)
+    return path
+
+
 def render_all(cfg: CreekConfig = DEFAULT_CONFIG, outdir: str = "output") -> list[str]:
     """Render the whole picture book; returns the list of written paths."""
     paths = [

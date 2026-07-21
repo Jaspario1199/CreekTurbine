@@ -105,6 +105,18 @@ solar**. A multi-input controller lets the same battery also charge from solar o
 a wall outlet (your "switch between sources"). Modeled in `portable.py` /
 `scripts/portable.py`; full write-up: **[docs/PORTABLE.md](docs/PORTABLE.md)**.
 
+### Or fully self-contained — one box with a handle you set in the creek?
+
+The cleanest form, and the vertical-axis design makes it natural: **one housing,
+rotor at the bottom (wet), battery + generator + outlets stacked above the
+waterline (dry), handle on top.** Set it in the stream and the outlets are live —
+no cable, plug-and-play. The real catch is *stability* (a free-standing box in
+current wants to slide/tip, so its base needs weight or a stake), which the model
+sizes. Modeled in `selfcontained.py` / `scripts/self_contained.py`; full write-up:
+**[docs/SELF_CONTAINED.md](docs/SELF_CONTAINED.md)**.
+
+![Self-contained unit](docs/images/self_contained.png)
+
 ---
 
 ## How it works (the modules)
@@ -125,6 +137,9 @@ a wall outlet (your "switch between sources"). Modeled in `portable.py` /
 8. **`portable.py`** — the carry-anywhere **power-station** build: battery-buffer
    runtime (sustained vs. burst), the waterproof low-voltage-DC cable to shore
    (volt-drop & gauge), and pack weight. See **[docs/PORTABLE.md](docs/PORTABLE.md)**.
+9. **`selfcontained.py`** — the all-in-one "box with a handle": rotor-fits-box +
+   freeboard geometry, and the drag/sliding/tipping math that sizes the base so
+   the current can't move it. See **[docs/SELF_CONTAINED.md](docs/SELF_CONTAINED.md)**.
 
 ---
 
@@ -140,12 +155,14 @@ creekturbine/
   siting.py          # measure-your-creek math (float method, cross-section)
   ducted.py          # enclosed-box / ducted low-head turbine + buoyancy/ballast
   portable.py        # carry-anywhere power station: battery buffer, cable, weight
+  selfcontained.py   # all-in-one "box with a handle": fit, freeboard, drag/tipping
   simulator.py       # renders the figures (matplotlib, headless)
 scripts/
   measure_creek.py   # walk through measuring velocity & flow
   size_turbine.py    # end-to-end sizing report (+ --figs)
   box_turbine.py     # model the enclosed underwater air-box idea
   portable.py        # model the portable power-station build
+  self_contained.py  # model the all-in-one box unit (+ --figs)
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
@@ -157,6 +174,7 @@ docs/
   SITING.md          # measure first, then make the water faster (+ permits)
   BOX_AND_DUCT.md    # the enclosed underwater air-box idea, costed (dry generator + head)
   PORTABLE.md        # carry-anywhere power station (cable, battery, source-switching)
+  SELF_CONTAINED.md  # all-in-one "box with a handle" set-in-the-creek unit
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan
