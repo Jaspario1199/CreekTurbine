@@ -61,6 +61,23 @@ block back-feed.
 **Ballpark:** a minimal ~5–10 W trickle-charger lands around **$250–450**; add
 $100–200 for a bigger battery, a nicer MPPT controller, and an inverter.
 
+## Portable ("camping") variant
+
+For a carry-anywhere unit (see [PORTABLE.md](PORTABLE.md)), swap the fixed frame
+for a lighter kit and add:
+
+| Item | Notes | ~USD |
+|------|-------|-----:|
+| Compact sealed generator + **magnetic coupling** | no shaft seal to leak; drop-in-any-creek | 50–120 |
+| **Marine tinned DC cable** + **IP68 potted connectors** | the "waterproof extension cord" — low-voltage DC only | 20–60 |
+| Portable **LiFePO4 pack** (e.g. 300–500 Wh) | the buffer that gives smooth, instant, 24/7 power | 150–350 |
+| **Multi-input charge controller** (turbine + solar + USB-C) | your "switch between sources" | 30–90 |
+| Fast anchor kit (stake + guy line / sandbags) | deploy in minutes | 15–35 |
+
+Use a **higher bus voltage (24–48 V)** for anything but the shortest cable run —
+it slashes the copper needed and the volt-drop (the model shows ~16× less copper
+going 12 V → 48 V). Keep any 120/230 V AC inverter **on land, after the battery**.
+
 ## What NOT to do
 - **No car alternator** for direct creek drive — it needs field excitation and
   thousands of rpm; it won't cut in.

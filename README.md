@@ -95,6 +95,16 @@ worth ~30× more** for the same opening. Cross the wet/dry wall with a **magneti
 coupling** (no shaft seal to leak), and mind that a submerged air box is very
 buoyant. Full write-up: **[docs/BOX_AND_DUCT.md](docs/BOX_AND_DUCT.md)**.
 
+### Want to carry it to any creek (camping / backyard)?
+
+That's a **portable power station** — a sealed drop-in turbine, a *low-voltage DC*
+cable to shore (never mains AC in the water), and a battery-buffered box on dry
+land. The battery is the trick: loads run off it while the turbine tops it up, so
+you get smooth, instant power and it works **24/7 — at night and in rain, unlike
+solar**. A multi-input controller lets the same battery also charge from solar or
+a wall outlet (your "switch between sources"). Modeled in `portable.py` /
+`scripts/portable.py`; full write-up: **[docs/PORTABLE.md](docs/PORTABLE.md)**.
+
 ---
 
 ## How it works (the modules)
@@ -112,6 +122,9 @@ buoyant. Full write-up: **[docs/BOX_AND_DUCT.md](docs/BOX_AND_DUCT.md)**.
 7. **`ducted.py`** — the "enclosed underwater air box" / ducted low-head turbine:
    flow-through-a-throat, the huge payoff of building in a little *head*, and how
    much ballast a submerged air box needs. See **[docs/BOX_AND_DUCT.md](docs/BOX_AND_DUCT.md)**.
+8. **`portable.py`** — the carry-anywhere **power-station** build: battery-buffer
+   runtime (sustained vs. burst), the waterproof low-voltage-DC cable to shore
+   (volt-drop & gauge), and pack weight. See **[docs/PORTABLE.md](docs/PORTABLE.md)**.
 
 ---
 
@@ -126,11 +139,13 @@ creekturbine/
   energy.py          # daily/annual energy, battery sizing, what-it-runs
   siting.py          # measure-your-creek math (float method, cross-section)
   ducted.py          # enclosed-box / ducted low-head turbine + buoyancy/ballast
+  portable.py        # carry-anywhere power station: battery buffer, cable, weight
   simulator.py       # renders the figures (matplotlib, headless)
 scripts/
   measure_creek.py   # walk through measuring velocity & flow
   size_turbine.py    # end-to-end sizing report (+ --figs)
   box_turbine.py     # model the enclosed underwater air-box idea
+  portable.py        # model the portable power-station build
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
@@ -141,6 +156,7 @@ docs/
   ARCHITECTURE.md    # how the pieces fit + design decisions
   SITING.md          # measure first, then make the water faster (+ permits)
   BOX_AND_DUCT.md    # the enclosed underwater air-box idea, costed (dry generator + head)
+  PORTABLE.md        # carry-anywhere power station (cable, battery, source-switching)
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan
