@@ -66,6 +66,21 @@ ballast; for the example it's a modest **+5 kg** in the base, but a brisk creek
 needs much more. The fix is a **wide, weighted base plus one stake or tether** —
 that turns it into "set-and-forget."
 
+## What it weighs
+
+The model now builds the weight up from components (housing, rotor+shaft+bearings,
+generator, battery, electronics), so "how heavy is it?" is computed, not guessed:
+
+| Build | Unit dry | + base ballast | **Total** |
+|-------|---------:|---------------:|----------:|
+| 30 cm box, 300 Wh, 0.8 m/s creek | ~10.3 kg | ~2.7 kg | **~12.9 kg (28 lb)** |
+| 35 cm box, 500 Wh, 0.8 m/s creek | ~13.6 kg | ~4.5 kg | **~18.1 kg (40 lb)** |
+
+A **40 lb (18 kg) budget is a good fit.** The base build lands near ~28 lb, and
+the headroom is best spent on either a **bigger battery** (more buffer / longer
+autonomy) or **more base ballast** (stability in a faster creek — heavier is
+better there). The heaviest single item is usually the battery, then the housing.
+
 ## Two variants
 
 - **Top-stays-dry (recommended, shown above):** outlets live while it runs. Needs
@@ -84,3 +99,5 @@ that turns it into "set-and-forget."
 - `drag_force_n` — the current's push on the submerged body (`½·ρ·Cd·A·v²`)
 - `hold_mass_for_sliding_kg` / `hold_mass_for_tipping_kg` /
   `required_base_ballast_kg` — how heavy/anchored the base must be
+- `estimate_weights` / `weight_breakdown` / `total_weight_kg` — the component
+  weight build-up and total, to check against a carry-weight budget

@@ -76,6 +76,44 @@ def hold_mass_for_tipping_kg(drag_n: float, drag_height_m: float,
     return safety * drag_n * drag_height_m / (base_halfwidth_m * g)
 
 
+# ---------------------------------------------------------------------------
+# Weight build-up (so "how much does it weigh?" is computed, not guessed)
+# ---------------------------------------------------------------------------
+import math as _math
+
+PETG_DENSITY = 1270.0        # kg/m^3, printed housing material
+LIFEPO4_WH_PER_KG = 110.0    # packaged LiFePO4 energy density
+
+
+def estimate_weights(box_diameter: float, box_height: float, frontal_area: float,
+                     battery_wh: float, generator_kg: float = 1.5,
+                     housing_wall_m: float = 0.003) -> dict:
+    """Rough component weight build-up (kg) for the self-contained unit.
+
+    Coefficients are honest ballpark values, not a spec — enough to answer "does
+    it fit a weight budget, and what's left for battery vs. ballast?". The
+    housing scales with its surface area; the battery with its capacity.
+    """
+    surface = _math.pi * box_diameter * box_height + 2 * (_math.pi * box_diameter ** 2 / 4)
+    housing = surface * housing_wall_m * PETG_DENSITY * 1.25   # +25% for bulkhead/ribs
+    rotor = max(0.5, frontal_area * 12.0)                      # scoops + end plates + hub
+    shaft_bearings = 0.4 + 0.4 * box_height                    # stainless shaft + 2 bearings
+    battery = battery_wh / LIFEPO4_WH_PER_KG
+    electronics = 0.6                                          # controller, wiring, outlets
+    misc = 0.4                                                 # handle, fasteners, seals
+    parts = {
+        "housing": housing,
+        "rotor": rotor,
+        "shaft_bearings": shaft_bearings,
+        "generator": generator_kg,
+        "battery": battery,
+        "electronics": electronics,
+        "misc": misc,
+    }
+    parts["dry_total"] = sum(parts.values())
+    return parts
+
+
 @dataclass
 class SelfContainedUnit:
     """A single carriable box that stands in the creek. All-in-one, plug-and-play."""
@@ -85,7 +123,8 @@ class SelfContainedUnit:
     submerged_depth: float = 0.30  # m, how deep the lower (wet) box sits
     velocity: float = 0.8         # m/s creek speed
     battery_wh: float = 300.0     # onboard buffer
-    unit_dry_mass_kg: float = 8.0  # mass of the unit itself (before base ballast)
+    unit_dry_mass_kg: float | None = None  # override; None = compute from components
+    generator_kg: float = 1.5     # PMA + magnetic-coupling magnets
     cp: float = 0.18
     eta_generator: float = 0.65
     eta_drivetrain: float = 0.90
@@ -118,6 +157,23 @@ class SelfContainedUnit:
         """Frontal area of the whole submerged box (for the drag calc)."""
         return self.box_diameter * self.submerged_depth
 
+    # --- weight ---------------------------------------------------------
+    def weight_breakdown(self) -> dict:
+        """Per-component dry weight build-up (kg), incl. 'dry_total'."""
+        return estimate_weights(self.box_diameter, self.box_height,
+                                self.frontal_area, self.battery_wh, self.generator_kg)
+
+    @property
+    def dry_mass_kg(self) -> float:
+        """The unit's own mass: the override if given, else the component build-up."""
+        if self.unit_dry_mass_kg is not None:
+            return self.unit_dry_mass_kg
+        return self.weight_breakdown()["dry_total"]
+
+    def total_weight_kg(self, safety: float = 2.0) -> float:
+        """Everything you'd lift/anchor: dry unit + the base ballast it needs."""
+        return self.dry_mass_kg + self.required_base_ballast_kg(safety)
+
     # --- performance & stability ---------------------------------------
     def power_w(self) -> float:
         return hk.extractable_power(self.frontal_area, self.velocity, self.cp,
@@ -138,7 +194,7 @@ class SelfContainedUnit:
         tipping = hold_mass_for_tipping_kg(drag, self.submerged_depth / 2.0,
                                            self.box_diameter / 2.0, safety)
         needed = max(sliding, tipping)
-        return max(0.0, needed - self.unit_dry_mass_kg)
+        return max(0.0, needed - self.dry_mass_kg)
 
     def report(self) -> dict:
         return {
@@ -150,5 +206,7 @@ class SelfContainedUnit:
             "freeboard": self.freeboard,
             "min_water_depth": self.submerged_depth,
             "drag_n": self.drag_n(),
+            "dry_mass_kg": self.dry_mass_kg,
             "required_base_ballast_kg": self.required_base_ballast_kg(),
+            "total_weight_kg": self.total_weight_kg(),
         }

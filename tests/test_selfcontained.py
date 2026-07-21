@@ -62,3 +62,30 @@ def test_required_ballast_grows_with_velocity():
     slow = sc.SelfContainedUnit(velocity=0.5, unit_dry_mass_kg=5.0)
     fast = sc.SelfContainedUnit(velocity=1.4, unit_dry_mass_kg=5.0)
     assert fast.required_base_ballast_kg() > slow.required_base_ballast_kg()
+
+
+def test_weight_breakdown_sums():
+    wb = sc.estimate_weights(0.30, 0.65, 0.065, battery_wh=300)
+    parts = sum(v for k, v in wb.items() if k != "dry_total")
+    assert wb["dry_total"] == pytest.approx(parts)
+    # battery mass = Wh / 110
+    assert wb["battery"] == pytest.approx(300 / 110.0)
+
+
+def test_bigger_battery_is_heavier():
+    small = sc.estimate_weights(0.30, 0.65, 0.065, battery_wh=200)["dry_total"]
+    big = sc.estimate_weights(0.30, 0.65, 0.065, battery_wh=500)["dry_total"]
+    assert big - small == pytest.approx((500 - 200) / 110.0)
+
+
+def test_computed_dry_mass_used_when_no_override():
+    u = sc.SelfContainedUnit(battery_wh=300)  # no unit_dry_mass_kg override
+    assert u.dry_mass_kg == pytest.approx(u.weight_breakdown()["dry_total"])
+    # total = dry + ballast
+    assert u.total_weight_kg() == pytest.approx(
+        u.dry_mass_kg + u.required_base_ballast_kg())
+
+
+def test_override_dry_mass_respected():
+    u = sc.SelfContainedUnit(unit_dry_mass_kg=20.0)
+    assert u.dry_mass_kg == 20.0
