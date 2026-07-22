@@ -9,12 +9,13 @@ the shaft up to the dry generator**:
 | `end_plate` | Top & bottom discs that clamp the scoops and carry the shaft hub. Print **2**. | PETG, 4+ walls, 40%+ infill. Overhangs the scoops on purpose (raises Cp). |
 | `savonius_blade` | Helical (twisted) Savonius scoop — the research-backed rotor blade. Print **`SCOOP_COUNT`** (default 2). | PETG/ASA, 4+ walls; print upright. Twist = `BLADE_TWIST_DEG`; set 0 for a straight rotor. See [RESEARCH_ROTORS.md](../docs/RESEARCH_ROTORS.md). |
 | `shaft_coupler` | Joins the rotor shaft to the generator shaft; radial set screws. | Print solid-ish (PETG/ABS/nylon), or buy a metal coupler and use this as the fit reference. |
+| `mag_coupling_disc` | Magnetic-coupling disc — ring of magnet pockets + shaft hub. Print **2** (wet + dry). Seals the wet→dry crossing with no shaft seal. | PETG; press magnets in alternating polarity. Seal/pot the wet disc's magnets. See [MAG_COUPLING.md](../docs/MAG_COUPLING.md). |
 | `generator_mount` | Top plate the PMA bolts to, standing above the waterline on legs. | PETG, 5+ walls. |
 
 Load-bearing, permanently-wet parts — the **shaft, fasteners, bearings** — are
 **metal (stainless)**, never printed.
 
-![end plate](previews/end_plate.png) ![helical blade](previews/savonius_blade.png) ![shaft coupler](previews/shaft_coupler.png) ![generator mount](previews/generator_mount.png)
+![end plate](previews/end_plate.png) ![helical blade](previews/savonius_blade.png) ![shaft coupler](previews/shaft_coupler.png) ![mag coupling disc](previews/mag_coupling_disc.png) ![generator mount](previews/generator_mount.png)
 
 ## Regenerating
 

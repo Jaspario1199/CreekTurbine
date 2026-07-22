@@ -58,6 +58,20 @@ COUPLER_DIA = 34.0         # mm, outer diameter
 COUPLER_LEN = 50.0         # mm, total length
 COUPLER_SETSCREWS = 2      # per side
 
+# --- Magnetic coupling discs (wet shaft <-> dry generator, no seal) ---------
+# Print TWO: one on the rotor shaft (magnets face UP to the bulkhead), one on the
+# generator shaft (magnets face DOWN). Press cylindrical magnets into the pockets
+# in ALTERNATING polarity around the ring. Keep the bulkhead + gap small.
+# Sizes mirror creekturbine.magnetics.AxialMagCoupling defaults; re-size with
+# `python -m scripts.mag_coupling` for your rotor's torque.
+MAG_COUNT = 12             # magnets per disc (alternating N/S)
+MAG_DIA = 15.0            # mm, cylindrical magnet diameter
+MAG_THK = 6.0            # mm, magnet thickness (= pocket depth)
+MAG_MEAN_RADIUS = 55.0   # mm, ring radius the magnets sit on
+MAG_POCKET_CLEAR = 0.2   # mm, added to pocket diameter for a press/glue fit
+MAGDISC_DIA = 2 * MAG_MEAN_RADIUS + MAG_DIA + 12.0   # mm, disc outer diameter
+MAGDISC_THK = MAG_THK + 3.0                          # mm, magnet depth + back wall
+
 # --- Generator mount (bracket carrying the PMA above the water) ------------
 MOUNT_PLATE = 140.0        # mm, square top plate the PMA bolts onto
 MOUNT_THK = 8.0            # mm

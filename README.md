@@ -166,6 +166,7 @@ creekturbine/
   ducted.py          # enclosed-box / ducted low-head turbine + buoyancy/ballast
   portable.py        # carry-anywhere power station: battery buffer, cable, weight
   selfcontained.py   # all-in-one "box with a handle": fit, freeboard, drag/tipping
+  magnetics.py       # sealed magnetic coupling: torque model + sizing
   simulator.py       # renders the figures (matplotlib, headless)
 scripts/
   measure_creek.py   # walk through measuring velocity & flow
@@ -173,6 +174,7 @@ scripts/
   box_turbine.py     # model the enclosed underwater air-box idea
   portable.py        # model the portable power-station build
   self_contained.py  # model the all-in-one box unit (+ --figs)
+  mag_coupling.py    # size the sealed magnetic coupling to the rotor torque
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
@@ -186,6 +188,7 @@ docs/
   PORTABLE.md        # carry-anywhere power station (cable, battery, source-switching)
   SELF_CONTAINED.md  # all-in-one "box with a handle" set-in-the-creek unit
   RESEARCH_ROTORS.md # cited survey: high-Cp + durable rotor geometries (+ comparison table)
+  MAG_COUPLING.md    # sealed magnetic coupling — the no-leak wet→dry crossing
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan

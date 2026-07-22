@@ -68,7 +68,7 @@ for a lighter kit and add:
 
 | Item | Notes | ~USD |
 |------|-------|-----:|
-| Compact sealed generator + **magnetic coupling** | no shaft seal to leak; drop-in-any-creek | 50–120 |
+| Compact sealed generator + **magnetic coupling** | no shaft seal to leak; drop-in-any-creek. Magnets: ~24 × Ø15×6 mm N42 NdFeB (two discs) + a thin non-magnetic bulkhead. Size with `scripts.mag_coupling`; see [MAG_COUPLING.md](MAG_COUPLING.md) | 50–120 |
 | **Marine tinned DC cable** + **IP68 potted connectors** | the "waterproof extension cord" — low-voltage DC only | 20–60 |
 | Portable **LiFePO4 pack** (e.g. 300–500 Wh) | the buffer that gives smooth, instant, 24/7 power | 150–350 |
 | **Multi-input charge controller** (turbine + solar + USB-C) | your "switch between sources" | 30–90 |

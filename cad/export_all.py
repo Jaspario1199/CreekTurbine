@@ -19,6 +19,7 @@ PARTS = [
     "shaft_coupler",
     "generator_mount",
     "savonius_blade",
+    "mag_coupling_disc",
 ]
 
 
