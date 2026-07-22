@@ -18,6 +18,7 @@ PARTS = [
     "end_plate",
     "shaft_coupler",
     "generator_mount",
+    "savonius_blade",
 ]
 
 

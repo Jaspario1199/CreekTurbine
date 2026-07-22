@@ -117,6 +117,16 @@ sizes. Modeled in `selfcontained.py` / `scripts/self_contained.py`; full write-u
 
 ![Self-contained unit](docs/images/self_contained.png)
 
+### Want the highest-Cp rotor that still survives the creek?
+
+A cited literature pass (**[docs/RESEARCH_ROTORS.md](docs/RESEARCH_ROTORS.md)**)
+found the sweet spot: an **optimized/hydrofoil, helical Savonius**. Verified
+results — a cambered-hydrofoil blade nearly **doubles Cp** (~0.26 vs ~0.13 at
+0.4 m/s), and arc-angle/overlap/aspect + end-plate tuning reaches ~0.19 — while
+keeping the blunt, self-starting, debris-shedding toughness a lift rotor throws
+away. Selectable in `config.py` (`SAVONIUS_PROFILE = "conventional" | "optimized"
+| "hydrofoil"`), and there's a printable **helical blade** in `cad/`.
+
 ---
 
 ## How it works (the modules)
@@ -175,6 +185,7 @@ docs/
   BOX_AND_DUCT.md    # the enclosed underwater air-box idea, costed (dry generator + head)
   PORTABLE.md        # carry-anywhere power station (cable, battery, source-switching)
   SELF_CONTAINED.md  # all-in-one "box with a handle" set-in-the-creek unit
+  RESEARCH_ROTORS.md # cited survey: high-Cp + durable rotor geometries (+ comparison table)
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan

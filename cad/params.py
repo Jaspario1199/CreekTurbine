@@ -24,6 +24,12 @@ ROTOR_HEIGHT = 540.0       # mm, scoop height (submerged)
 SCOOP_COUNT = 2            # 2 = classic Savonius; 3 = smoother torque, a bit less Cp
 SCOOP_OVERLAP = 0.15       # fraction of bucket diameter the two scoops overlap
 
+# Helical Savonius blade (see docs/RESEARCH_ROTORS.md). A twist improves self-
+# starting at any flow angle, smooths torque ripple, and sheds debris. Print
+# SCOOP_COUNT of these, phase them evenly, and clamp between the end plates.
+BLADE_THK = 4.0            # mm, printed scoop wall thickness
+BLADE_TWIST_DEG = 180.0    # total helical twist over ROTOR_HEIGHT (0 = straight)
+
 # --- Shafts / bearings -- MEASURE these on the parts you buy ----------------
 SHAFT_DIA = 16.0           # mm, rotor shaft (stainless, e.g. 16 mm)
 GEN_SHAFT_DIA = 8.0        # mm, your generator/PMA input shaft

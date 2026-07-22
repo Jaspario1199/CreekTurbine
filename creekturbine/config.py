@@ -85,9 +85,17 @@ DEPTH_OF_DISCHARGE = 0.8 if BATTERY_CHEMISTRY == "LiFePO4" else 0.5
 #     is harder to keep dry. Pick this only for a brisk, deeper creek.
 TURBINE_TYPE = "savonius"    # "savonius" | "axial"
 
+# Savonius blade profile — see docs/RESEARCH_ROTORS.md + rotor.SAVONIUS_PROFILES.
+#   "custom"       use the explicit CP_SAVONIUS below (conservative default)
+#   "conventional" ~0.16   classic semicircular scoop
+#   "optimized"    ~0.19   arc ~166°, aspect 1.5-2, overlap 0.15-0.2, end plates
+#   "hydrofoil"    ~0.24   cambered-hydrofoil blade (best low-speed Cp, harder build)
+# A named profile OVERRIDES CP_SAVONIUS. Lab Cp exceeds real DIY, so stay humble.
+SAVONIUS_PROFILE = "custom"
+
 # Power coefficient Cp = fraction of the water's kinetic power the ROTOR
 # captures. Hard ceiling is the Betz limit 16/27 = 0.593. Real DIY numbers:
-CP_SAVONIUS = 0.18           # conservative DIY Savonius (lab-optimized ~0.25-0.30)
+CP_SAVONIUS = 0.18           # conservative DIY Savonius (used when profile = "custom")
 CP_AXIAL = 0.35              # conservative small hydrokinetic prop (good ones ~0.40-0.45)
 
 # Everything downstream of the rotor that eats power before the battery:
@@ -121,6 +129,7 @@ class CreekConfig:
     depth_of_discharge: float = DEPTH_OF_DISCHARGE
 
     turbine_type: str = TURBINE_TYPE
+    savonius_profile: str = SAVONIUS_PROFILE
     cp_savonius: float = CP_SAVONIUS
     cp_axial: float = CP_AXIAL
     generator_efficiency: float = GENERATOR_EFFICIENCY
@@ -139,8 +148,13 @@ class CreekConfig:
 
     @property
     def cp(self) -> float:
-        """Rotor power coefficient for the selected turbine type."""
-        return self.cp_savonius if self.turbine_type == "savonius" else self.cp_axial
+        """Rotor power coefficient for the selected turbine type (+ Savonius profile)."""
+        if self.turbine_type == "savonius":
+            from .rotor import SAVONIUS_PROFILES  # lazy: avoid import cycle
+            if self.savonius_profile in SAVONIUS_PROFILES:
+                return SAVONIUS_PROFILES[self.savonius_profile]
+            return self.cp_savonius
+        return self.cp_axial
 
     @property
     def system_efficiency(self) -> float:

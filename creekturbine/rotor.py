@@ -19,6 +19,20 @@ from dataclasses import dataclass
 from . import hydrokinetics as hk
 
 
+# Research-backed Savonius blade profiles and their peak Cp at low creek speed.
+# Sources & full discussion in docs/RESEARCH_ROTORS.md (all adversarially verified):
+#   conventional  semicircular scoop, Cp ~0.166 @ TSR 0.78            [2]
+#   optimized     arc ~166°, aspect 1.4-2.0, overlap 0.15-0.2,        [5]
+#                 end plates -> Cp ~0.194 @ TSR 0.8
+#   hydrofoil     cambered-hydrofoil blade -> Cp ~0.21-0.26 @ 0.4 m/s [3]
+# Defaults stay conservative; opt into a better profile for the researched gain.
+SAVONIUS_PROFILES = {
+    "conventional": 0.16,
+    "optimized": 0.19,
+    "hydrofoil": 0.24,
+}
+
+
 @dataclass
 class RotorPerformance:
     """What a rotor does at one water velocity — the full picture in one object."""
@@ -101,6 +115,8 @@ class SavoniusRotor(_RotorBase):
     height: float = 0.6       # m, rotor height (submerged depth of the scoops)
     cp: float = 0.18          # conservative DIY value
     optimal_tsr: float = 0.9  # drag rotors peak just below TSR = 1
+    profile: str = "custom"   # which SAVONIUS_PROFILES entry set the cp (or "custom")
+    helical: bool = False     # twisted blades: better self-start/torque/debris shedding
 
     @classmethod
     def from_buckets(cls, bucket_dia: float, height: float, overlap_ratio: float = 0.15,
@@ -108,6 +124,21 @@ class SavoniusRotor(_RotorBase):
         overlap = overlap_ratio * bucket_dia
         diameter = 2.0 * bucket_dia - overlap
         return cls(diameter=diameter, height=height, **kw)
+
+    @classmethod
+    def from_profile(cls, diameter: float, height: float, profile: str = "optimized",
+                     helical: bool = True, **kw) -> "SavoniusRotor":
+        """Build a rotor with a research-backed Cp for a named blade profile.
+
+        See SAVONIUS_PROFILES / docs/RESEARCH_ROTORS.md. `helical` is metadata (it
+        aids self-start, torque smoothness, and debris shedding without a reliable
+        Cp change), used by the CAD to twist the blades.
+        """
+        if profile not in SAVONIUS_PROFILES:
+            raise ValueError(f"unknown profile {profile!r}; "
+                             f"choose from {sorted(SAVONIUS_PROFILES)}")
+        return cls(diameter=diameter, height=height, cp=SAVONIUS_PROFILES[profile],
+                   profile=profile, helical=helical, **kw)
 
     @property
     def frontal_area(self) -> float:
@@ -200,6 +231,11 @@ def make_rotor_from_config(cfg) -> _RotorBase:
         return size_axial_for_power(cfg.target_power_w, v, cfg.cp_axial,
                                     cfg.generator_efficiency, cfg.drivetrain_efficiency,
                                     cfg.water_density)
-    return size_savonius_for_power(cfg.target_power_w, v, 1.6, cfg.cp_savonius,
-                                   cfg.generator_efficiency, cfg.drivetrain_efficiency,
-                                   cfg.water_density)
+    # cfg.cp already reflects the selected Savonius profile (or the custom Cp).
+    rot = size_savonius_for_power(cfg.target_power_w, v, 1.6, cfg.cp,
+                                  cfg.generator_efficiency, cfg.drivetrain_efficiency,
+                                  cfg.water_density)
+    profile = getattr(cfg, "savonius_profile", "custom")
+    rot.profile = profile
+    rot.helical = profile in SAVONIUS_PROFILES  # named profiles ship helical CAD
+    return rot

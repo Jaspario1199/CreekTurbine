@@ -71,6 +71,42 @@ def test_make_rotor_from_config_respects_type():
     assert isinstance(ax, rotor_mod.AxialRotor)
 
 
+def test_savonius_profiles_ordered():
+    p = rotor_mod.SAVONIUS_PROFILES
+    assert p["conventional"] < p["optimized"] < p["hydrofoil"]
+
+
+def test_from_profile_sets_cp_and_metadata():
+    r = rotor_mod.SavoniusRotor.from_profile(0.4, 0.6, profile="hydrofoil")
+    assert r.cp == rotor_mod.SAVONIUS_PROFILES["hydrofoil"]
+    assert r.profile == "hydrofoil"
+    assert r.helical is True
+
+
+def test_from_profile_rejects_unknown():
+    with pytest.raises(ValueError):
+        rotor_mod.SavoniusRotor.from_profile(0.4, 0.6, profile="banana")
+
+
+def test_config_cp_reflects_profile():
+    from creekturbine.config import CreekConfig
+    custom = CreekConfig(turbine_type="savonius", savonius_profile="custom", cp_savonius=0.18)
+    hydro = CreekConfig(turbine_type="savonius", savonius_profile="hydrofoil")
+    assert custom.cp == pytest.approx(0.18)
+    assert hydro.cp == pytest.approx(rotor_mod.SAVONIUS_PROFILES["hydrofoil"])
+
+
+def test_hydrofoil_profile_shrinks_rotor_vs_conventional():
+    from creekturbine.config import CreekConfig
+    conv = rotor_mod.make_rotor_from_config(
+        CreekConfig(savonius_profile="conventional"))
+    hydro = rotor_mod.make_rotor_from_config(
+        CreekConfig(savonius_profile="hydrofoil"))
+    # higher Cp -> smaller rotor for the same target power
+    assert hydro.frontal_area < conv.frontal_area
+    assert hydro.helical is True
+
+
 def test_augmentation_shrinks_rotor():
     from creekturbine.config import CreekConfig
     base = rotor_mod.make_rotor_from_config(CreekConfig(velocity_augmentation=1.0))

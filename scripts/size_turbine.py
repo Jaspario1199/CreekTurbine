@@ -46,7 +46,9 @@ def main() -> None:
           + f", channel {cfg.width:.2f}×{cfg.depth:.2f} m ({cfg.channel_area:.2f} m²)")
     print(f" Water carries {hk.power_flux(ve, rho):.0f} W per m² of frontal area"
           f" at {ve:.2f} m/s.")
-    print(f" Turbine: {cfg.turbine_type.upper()}  (Cp={cfg.cp:.2f}, "
+    prof = (f", {cfg.savonius_profile} profile" if cfg.turbine_type == "savonius"
+            and cfg.savonius_profile != "custom" else "")
+    print(f" Turbine: {cfg.turbine_type.upper()}{prof}  (Cp={cfg.cp:.2f}, "
           f"generator η={cfg.generator_efficiency:.2f}, drivetrain η="
           f"{cfg.drivetrain_efficiency:.2f})")
     print(f" End-to-end efficiency (water→battery): {cfg.system_efficiency*100:.0f}%")

@@ -39,6 +39,13 @@ Savonius, **~20%** for an axial — is deliberately on the pessimistic side so r
 builds *beat* the estimate rather than disappoint. Tune the values in
 `config.py` if you have measured data for your own parts.
 
+> **Rotor geometry deep-dive:** for a cited, adversarially-verified survey of
+> which rotor shapes maximize Cp *and* survive an unattended creek — optimized
+> and hydrofoil Savonius blades, helical twist, hybrid Savonius–Darrieus,
+> shrouds, and frontier VIV/flapping-foil harvesters — see
+> **[RESEARCH_ROTORS.md](RESEARCH_ROTORS.md)**. Its findings back the selectable
+> `SAVONIUS_PROFILE` presets and the printable helical blade in `cad/`.
+
 ## Why hydrokinetic (no dam)
 
 Conventional micro-hydro multiplies **head × flow** and wants a vertical drop
