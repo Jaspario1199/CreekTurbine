@@ -16,9 +16,9 @@ See README.md for the one-paragraph reality check, then run
 """
 
 from . import (config, hydrokinetics, rotor, generator, energy, siting, ducted,
-               portable, selfcontained, magnetics)
+               portable, selfcontained, magnetics, funnel)
 
 __all__ = ["config", "hydrokinetics", "rotor", "generator", "energy", "siting",
-           "ducted", "portable", "selfcontained", "magnetics"]
+           "ducted", "portable", "selfcontained", "magnetics", "funnel"]
 
 __version__ = "0.1.0"

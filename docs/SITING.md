@@ -35,10 +35,13 @@ the water up right at the rotor** — and since power ∝ v³, a modest 1.2× sp
 is a ~1.7× power gain; 1.5× is ~3.4×.
 
 - **Find a natural narrows.** Nature already built chutes — use them.
-- **Build a chute (a "penstock" for kinetic flow).** Funnel the flow through a
-  narrower cross-section at the rotor with rock, board, or sandbag wing-walls.
-  Conservation of flow (`A₁v₁ = A₂v₂`) means halving the area doubles the speed.
-  Set `VELOCITY_AUGMENTATION` in the config to the ratio you actually achieve.
+- **Build a chute / funnel (a "penstock" for kinetic flow).** Funnel the flow
+  through a narrower cross-section at the rotor with rock, board, or sandbag
+  wing-walls. Conservation of flow (`A₁v₁ = A₂v₂`) means halving the area doubles
+  the speed — and in an open channel it accelerates up to the **critical velocity**
+  `√(g·depth)` before it chokes and ponds up. This is *the* key move for a
+  **mellow, shallow** creek: see **[FUNNEL.md](FUNNEL.md)** and
+  `python -m scripts.funnel`. Set `VELOCITY_AUGMENTATION` to the ratio you achieve.
 - **Shroud / diffuser.** A duct around the rotor (a "diffuser-augmented" turbine)
   raises throughput; a good one is worth ~1.3–2× but is real engineering.
 

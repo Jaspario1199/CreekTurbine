@@ -167,6 +167,7 @@ creekturbine/
   portable.py        # carry-anywhere power station: battery buffer, cable, weight
   selfcontained.py   # all-in-one "box with a handle": fit, freeboard, drag/tipping
   magnetics.py       # sealed magnetic coupling: torque model + sizing
+  funnel.py          # converging-intake funnel: continuity + critical-velocity cap
   simulator.py       # renders the figures (matplotlib, headless)
 scripts/
   measure_creek.py   # walk through measuring velocity & flow
@@ -175,6 +176,7 @@ scripts/
   portable.py        # model the portable power-station build
   self_contained.py  # model the all-in-one box unit (+ --figs)
   mag_coupling.py    # size the sealed magnetic coupling to the rotor torque
+  funnel.py          # model a converging chute for a mellow/shallow creek
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
@@ -186,6 +188,7 @@ docs/
   ARCHITECTURE.md    # how the pieces fit + design decisions
   SITING.md          # measure first, then make the water faster (+ permits)
   BOX_AND_DUCT.md    # the enclosed underwater air-box idea, costed (dry generator + head)
+  FUNNEL.md          # converging chute to make a mellow/shallow creek useful
   PORTABLE.md        # carry-anywhere power station (cable, battery, source-switching)
   SELF_CONTAINED.md  # all-in-one "box with a handle" set-in-the-creek unit
   RESEARCH_ROTORS.md # cited survey: high-Cp + durable rotor geometries (+ comparison table)
