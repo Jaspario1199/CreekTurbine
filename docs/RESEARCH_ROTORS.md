@@ -1,159 +1,186 @@
 # Rotor geometry research — maximizing Cp *and* surviving the creek
 
-This is a synthesis of a multi-source, adversarially-verified literature pass on
-experimental/optimized hydrokinetic rotor geometries, scoped to our goal: high
-power coefficient (Cp) at **low creek speeds (~0.4–1.2 m/s)** in a **small,
+A multi-source, **adversarially-verified** literature pass on experimental and
+optimized hydrokinetic rotor geometries, scoped to our goal: high power
+coefficient (Cp) at **low creek speeds (~0.4–1.2 m/s)** in a **small,
 self-contained, vertical-shaft unit** that must run **months unattended in
-debris-laden water**. Claims marked ✅ passed 3-vote adversarial verification;
-claims marked ⚠️ are reported by a source but were **not** verified in this pass
-(the verification run was cut short by a usage limit) — treat those as leads, not
-settled facts.
+debris-laden water**.
 
-## The core tension
+**Method / confidence:** 5 search angles → 23 sources → 75 extracted claims → the
+top 25 verified by 3 independent skeptics each (a claim needs 2/3 to survive).
+Result: **22 confirmed ✅, 3 refuted ❌, 0 unverified.** Confidence is noted per
+claim. Several headline Cp figures are **CFD/numerical only** — flagged, and to be
+discounted for simulation optimism (real built rotors land lower).
 
-The geometries that maximize Cp and the ones that survive an unattended creek
-pull in opposite directions:
+## Bottom line
 
-- **Lift-type rotors** (Darrieus/H-rotor, axial propellers, thin hydrofoils) reach
-  higher Cp but at **high tip-speed ratios**, generally **don't self-start**, and
-  have thin, erosion-/debris-prone leading edges.
-- **Drag/hybrid rotors** (Savonius family) sit lower on Cp but are blunt,
-  **self-starting**, direction-agnostic, low-rpm, and debris-tolerant.
+For an unattended low-speed creek unit, the peer-reviewed evidence points to an
+**optimized drag-type Savonius** (optionally helical, with end plates) as the best
+balance of Cp and robustness. The high-Cp lift geometries win on paper and lose on
+self-start and durability — exactly the wrong trade for water you can't babysit.
 
-✅ **Savonius Cp ≈ 0.12–0.25 at TSR ≈ 0.35–1.0; Darrieus Cp ≈ 0.29–0.40 but only
-at TSR ≈ 1.5–3.5.** [1] For an unattended creek where self-starting and robustness
-matter more than peak efficiency, that points at an *optimized* Savonius — and the
-research says "optimized" is worth a lot.
+## The core tension (✅ high confidence)
 
-## (1) How to make a Savonius much better without losing its toughness
+✅ **Savonius Cp ≈ 0.12–0.25 at TSR ≈ 0.35–1.0 and self-starts; Darrieus Cp ≈
+0.29–0.40 but only at TSR ≈ 1.5–3.5 and struggles to self-start at low speed.
+Self-start improves with solidity; torque ripple falls as blade count rises.** [1]
+For water you can't restart by hand, the higher-solidity Savonius end is the safe
+choice. (A broad "Gorlov helical reaches Cp ~0.45" claim from the same review was
+**❌ refuted** — do not rely on it.)
 
-The classic semicircular Savonius is mediocre, but geometry tweaks nearly **double**
-its Cp while keeping the blunt, self-starting, debris-shedding character:
+## (1) Making a Savonius much better without losing its toughness
 
-- ✅ **Blade cross-section is the biggest lever.** A conventional semicircular
-  scoop peaks at **Cp 0.166 @ TSR 0.78**; reshaping the blade lifts it. In one CFD
-  study a **V-shaped** profile gave the best Cp 0.184 (U 0.172, W 0.160) vs 0.166
-  conventional, all at TSR 0.78. [2]
-- ✅ **A cambered *hydrofoil* Savonius blade roughly DOUBLES Cp at low speed:**
-  **Cp ≈ 0.26 at a 140° camber angle vs 0.13 for the conventional design at
-  0.4 m/s** (and 0.21 at 105°), at overlap ratio 0.15. [3][5] This is the single
-  most striking result for our low-speed case.
-- ✅ **Optimized "classic" geometry** (blade **arc angle ≈ 166°**, **aspect ratio
-  1.4–2.0**, **overlap ratio 0.15–0.2**) reaches **Cp 0.194 at TSR 0.8**. [5]
-  These are cheap, buildable parameters — pick them and you gain ~15–20% for free.
-- ✅ **Self-starting improves with solidity; torque ripple falls as you add
-  blades/stages.** [1] (Helical/twisted blades and multi-stage phase-shifting are
-  the standard way to smooth torque and guarantee self-start at any angle — the
-  twist also sheds debris, though this pass didn't return a clean Cp number for
-  helical specifically. A broad "Gorlov helical reaches Cp ~0.45" claim was
-  **refuted** 1-2 in verification, so don't count on helical for a Cp *gain* — its
-  value is self-start, smoothness, and durability, not peak Cp.)
+✅ **Blade-shape optimization is the biggest low-cost lever.** An ANN/CFD-optimized
+semicircular rotor — **arc angle ≈ 166°, aspect ratio 1.4–2.0, overlap 0.15–0.2,
+end plates** — reaches **Cp 0.194 at TSR 0.8** (experimentally validated to ~1.6%).
+[5] Among novel cross-sections, a **V-shaped** blade gave the best Cp 0.184 (U
+0.172, conventional 0.166, **W 0.160 — worse than stock**), all at TSR 0.78. [2]
+Profile choice can help *or* hurt.
 
-**Hybrid Savonius–Darrieus** — a Darrieus (for Cp) with a Savonius core (for
-self-start):
-- ✅ Hybrid yields **~9.9% higher Cp than a Darrieus alone**, [4]
-- ✅ **~15.9% higher average torque with less fluctuation**, [4] and
-- ✅ **much better self-starting** — a lone Darrieus makes negative (stalling)
-  torque over three azimuth ranges; the hybrid only one. [4]
+✅ **A cambered-hydrofoil Savonius blade nearly DOUBLES Cp at very low flow:
+Cp 0.21 at 105° camber → 0.26 at 140°, vs 0.13 conventional, at 0.4 m/s and
+overlap 0.15.** [3] ⚠️ **Caveat:** 3D RANS **CFD only**, and the 0.13 baseline is
+low — expect real numbers below 0.26. This is the strongest low-speed Cp lever
+found, but an accurate cambered section is harder to fabricate than a plain bucket.
 
-## (2) Flow augmentation (shrouds/diffusers) and axial blades
+✅ **Helical/twisted blades** don't reliably raise peak Cp (that's why we set
+`helical` as a self-start/robustness feature, not a Cp bump), but they remove the
+Savonius's angular dead-spots, **smooth torque ripple, and shed debris** — all
+gold for an unattended creek unit.
 
-- ✅ A **diffuser-augmented (shrouded) rotor** designed by a cascade-based method
-  hit **Cp 0.415 — but normalized by the diffuser's *outer* area**, not the rotor
-  swept area. [6] That normalization is the catch: a shroud's honest win is more
-  power *per rotor*, at the cost of a much bigger structure.
-- ⚠️ Reported diffuser gains: a flanged "wind-lens" flange alone gave **+28% Cp**
-  (at TSR 5.6, 10° flange), [7] and wind-lens shrouds are claimed at **2–5×** a
-  bare rotor (water-lens ~2.5×) — ⚠️ unverified here. [8] Ties directly to our
-  [BOX_AND_DUCT.md](BOX_AND_DUCT.md) design.
-- Axial propellers reach the highest bare-rotor Cp (~0.35–0.45) but need higher
-  flow to self-start and have erosion-prone blades — better suited to a *ducted*
-  unit than an open drop-in.
+✅ **Hybrid Savonius–Darrieus:** in one experiment-validated CFD study, **~9.9%
+higher Cp and ~15.9% higher torque than a lone Darrieus, with less ripple**, and
+the Savonius stage shrinks the Darrieus negative-torque "dead band" from three
+azimuth ranges to one (big self-start win). [4] ⚠️ **Caveat:** that Cp *gain* is
+configuration-specific — much of the hybrid literature finds an added Savonius
+stage *reduces* peak Cp (you buy self-start at the cost of efficiency). Trust the
+self-start/ripple benefit more than the +10% Cp.
 
-## (3) Frontier / experimental (worth watching, not yet buildable)
+## (2) Flow augmentation (shrouds/diffusers) — real but conditional
 
-All ⚠️ **unverified in this pass** — promising leads, but treat as research-stage:
+✅ A cascade-designed **diffuser-augmented rotor reached ducted Cp ≈ 0.415**
+(normalized to the diffuser's outer area, CFD), [6] and ✅ the brimmed "wind-lens"
+mechanism **transfers to water — a water-lens turbine shows ~2.5× power** vs a bare
+rotor. [7][8] **But:** ❌ the generic **"2–5× for any bare rotor" claim was
+refuted**, and the blockage-correction literature warns diffuser gains are
+"significantly overestimated in a confined [test-tank] domain" — an open,
+low-blockage creek sees **less**. And a shroud is a **debris-clog and biofouling
+liability**. Net: a real lever (folds into our [BOX_AND_DUCT.md](BOX_AND_DUCT.md)
+head design), not a free win. Axial propellers reach the highest bare-rotor Cp
+(~0.35–0.45) but need fast flow to start and have erosion-prone blades.
 
-- **Oscillating / flapping hydrofoils:** an optimized *tandem* flapping foil
-  reported ~66.8% energy-extraction efficiency in CFD, aimed at ~1 m/s currents. [12]
-- **Vortex-induced vibration (VIVACE):** reported ~98 W/m³ at ~1.03 m/s and
-  operation across ~0.4–1.1 m/s — squarely our speed band. [9]
-- **Flow-induced-oscillation harvesters** with passive turbulence control claimed
-  to generate down to **0.2 m/s**, below the usual turbine floor. [11]
-- Among flow-induced-vibration types, reviews rank **galloping** (high power) and
-  **VIV** (high efficiency) differently, with **wake-induced vibration** proposed
-  as a best-of-both. [10]
+## (3) Frontier / experimental — real low-speed promise, "watch, don't build"
 
-These have **no moving airfoil-free simplicity, no field-proven durability, and no
-DIY path** yet. Keep an eye on them; don't build your creek unit around them.
+Now **verified but heavily caveated** — genuinely interesting, not yet buildable:
 
-## (4) Durability — the "withstand the long term" half
+✅ **VIV harvesters (VIVACE):** ~**98 W/m³ at 1.03 m/s** (including dead space
+between cylinders), with experiments across **0.4–1.1 m/s** — squarely our window.
+[9] ✅ Among flow-induced-vibration types, **galloping gives higher power, VIV
+higher efficiency, and a wake-induced-vibration** circular oscillator is the
+balanced optimum. [10] ✅ Low spring stiffness + passive turbulence control push
+power **onset down to 0.2 m/s**. [11] ✅ **Tandem flapping hydrofoils** are
+optimized for ~1 m/s currents at ~**66.8% CFD efficiency**. [12]
 
-Verification of the durability sources was cut short, so these are ⚠️ **reported,
-unverified** — but they match established tidal-turbine field experience:
+⚠️ **Why these stay on the watch list:** (a) power ∝ v³, so *net* harvest at
+0.2–0.4 m/s is tiny; (b) the 66.8% is swept-area-defined and **exceeds the Betz
+limit** — it is not comparable to rotor Cp and not a field number; (c) all are
+lab/CFD-stage with moving linkages and no long-term field record. (One FIV ranking
+sub-claim — "a fluttering foil ranks third" — was ❌ **refuted 0-3**.)
 
-- ⚠️ Dominant blade-degradation mechanisms are **cavitation, abrasion, and
-  suspended-sediment impact**, hitting both structure *and* power over time. [13]
-- ⚠️ **Leading-edge erosion is the most performance-critical** location — it
-  wrecks the flow behavior that lift blades depend on. [13] → the thin,
-  high-Cp lift blades are exactly the ones that degrade; blunt Savonius scoops
-  have far less to lose.
-- Field failures on small units are dominated by **floating debris/log strikes and
-  clogging** (from the debris-mitigation literature) — which is why a blunt,
-  self-clearing rotor + an upstream **trash rack** matters more than a few points
-  of Cp. See [SITING.md](SITING.md) and [SAFETY.md](SAFETY.md).
+## (4) Durability — and why it *reinforces* the Savonius choice
+
+✅ **The dominant blade-degradation mechanisms are suspended-sediment abrasion,
+debris impact, fatigue, and biofouling; leading-edge erosion is the most
+performance-critical location — on LIFT-based blades**, because it disrupts the
+flow separation/stall that lift depends on. [13]
+
+⚠️ **Crucial scope caveat (from verification):** that source is a *tidal* study at
+**2–4 m/s**. At creek speeds (0.4–1.2 m/s), **cavitation is negligible**, and a
+**drag-based Savonius has no lift-critical leading edge** to erode — its torque
+comes from the concave/convex drag difference of a thick, blunt scoop. So the
+scary failure modes hit exactly the high-Cp lift rotors, **not** the Savonius. For
+our unit the real risks are **bearing/seal wear, sediment abrasion, biofouling,
+debris strikes, and fatigue** — addressed by a blunt self-shedding rotor, an
+upstream trash rack ([SITING.md](SITING.md)), and robust materials.
 
 ## Ranked recommendation for a buildable self-contained creek unit
 
-1. **Optimized Savonius — the pick.** Cambered/hydrofoil (or ≥160° arc) blades,
-   **overlap 0.15–0.2, aspect ratio 1.5–2.0, end plates**, ideally **helical**.
-   Buys ~0.19–0.26 Cp (vs ~0.16 conventional) *and* keeps self-start, low rpm,
-   direction-agnosticism, and debris tolerance. Best Cp-per-durability for our case.
-2. **Add a shroud/diffuser** if you want more from the same rotor — real gains, but
-   a bigger structure; folds into the [box/head design](BOX_AND_DUCT.md).
-3. **Hybrid Savonius–Darrieus** if you have brisker, cleaner flow and want more Cp
-   while keeping self-start — more complex to build.
-4. **Watch, don't build:** flapping-foil / VIV / galloping harvesters. Exciting at
-   low speed on paper; not field-proven or DIY-ready.
+1. **Optimized Savonius — the pick.** Helical/twisted blades, **end plates**,
+   **aspect ratio 1.4–2.0, overlap 0.15–0.2, arc ~166°** (or a cambered profile if
+   you can build it). Self-starts, debris-tolerant, easiest to build; Cp ~0.19–0.25.
+2. **Hybrid Savonius–Darrieus** — more Cp/torque with retained self-start, more
+   parts. Good if your flow is brisker and cleaner.
+3. **Cambered-hydrofoil / V-profile Savonius** — highest low-speed Cp (CFD to 0.26)
+   *if* you can fabricate the section accurately.
+4. **Watch, don't build:** VIV/VIVACE/galloping and flapping-foil harvesters —
+   real low-speed promise, but lab/CFD, tiny net power, moving parts.
+5. **Avoid for unattended low speed:** bare Darrieus/H-rotor (poor self-start) and
+   tight shrouds (debris/fouling liability; tank-inflated numbers).
 
-**What we did in the code:** `rotor.py` now carries these as selectable
-`SAVONIUS_PROFILES` (conventional / optimized / hydrofoil) with Cp values from the
-sources above, and `cad/` includes a **helical, cambered Savonius** blade so the
-recommended geometry is actually printable. Defaults stay conservative; opt into
-`hydrofoil` for the researched upgrade.
+**What we did in the code:** `rotor.py` carries these as selectable
+`SAVONIUS_PROFILES` (conventional 0.16 / optimized 0.19 / hydrofoil 0.24 — the
+hydrofoil value deliberately sits *below* the CFD 0.26 peak), `from_profile()`
+tags a `helical` flag, and `cad/` ships a printable **helical Savonius blade**.
+Defaults stay conservative; opt into a profile for the researched gain.
 
-## Comparison table
+## Comparison table (from the verified synthesis)
 
 | Geometry | Typical Cp | Optimal TSR | Self-start | Durability (creek) | DIY-buildable |
 |---|---|---|---|---|---|
-| Conventional Savonius | ~0.16 [2] | ~0.8 | Excellent | Excellent (blunt) | Easy |
-| **Optimized Savonius** (arc 166°, AR 1.5–2, overlap 0.15–0.2, end plates) | **~0.19** [5] | ~0.8 | Excellent | Excellent | Easy–moderate |
-| **Hydrofoil/cambered Savonius** | **~0.21–0.26** [3] | ~0.8–1.0 | Very good | Very good | Moderate |
-| Helical Savonius | ~0.16–0.20 (Cp≈conv.) | ~0.8–1.0 | Excellent | Excellent (sheds debris) | Moderate |
-| Hybrid Savonius–Darrieus | ~0.32–0.44 (+~10% vs Darrieus) [4] | ~1.5–2.5 | Good (Savonius-assisted) | Moderate | Hard |
-| Darrieus / H-rotor | ~0.29–0.40 [1] | ~1.5–3.5 | Poor | Moderate (thin blades) | Hard |
-| Axial propeller | ~0.35–0.45 | ~4–6 | Poor–fair | Low (leading-edge erosion) | Hard |
-| Shrouded/diffuser rotor | rotor Cp ×~1.3–2.5 ⚠️ [7][8] | (rotor-dependent) | inherits rotor | adds a big structure | Moderate–hard |
-| Flapping foil / VIV (frontier) ⚠️ | lab-stage [9][12] | n/a | n/a | unproven | Not yet |
+| Conventional Savonius | 0.12–0.19 | 0.7–1.0 | Excellent | High (blunt, drag) | Easy |
+| **Optimized Savonius** (arc/AR/overlap, end plates) | **0.19–0.25** | ~0.8 | Excellent | High | Easy–Moderate |
+| **Helical/twisted Savonius** | ~0.18–0.25 | ~0.8 | Excellent (no dead angle) | High + self-shedding | Moderate |
+| Cambered-hydrofoil / V-profile Savonius | 0.18–0.26 (CFD) | 0.78–0.8 | Good–Excellent | High | Moderate–Hard |
+| Hybrid Savonius–Darrieus | ~0.25–0.35 | ~1–2 | Good (dead band shrunk) | Moderate–High | Moderate |
+| Darrieus / H-rotor | 0.29–0.40 | 1.5–3.5 | Poor at low speed | Moderate (thin-LE erosion) | Moderate |
+| Diffuser/shroud (DAWT) | up to ~0.42 ducted (~2.5×, blockage-inflated) | rotor-dependent | inherits rotor | **Low** (debris clog/foul) | Hard |
+| Axial propeller | 0.35–0.45 | 4–7 | Poor at low speed | Moderate (LE erosion) | Hard |
+| FIV/VIV/VIVACE, flapping foil | n/a (lab/CFD) | n/a | onset ~0.2 m/s, tiny net power | Unproven | Not yet |
+
+## Caveats worth remembering
+
+- **CFD optimism:** the 0.26 hydrofoil Cp, 0.415 ducted Cp, and 66.8% flapping-foil
+  efficiency are simulations; real builds land lower. Swept-area efficiencies that
+  exceed the Betz limit (0.593) are defined differently and aren't comparable to Cp.
+- **Shroud numbers are tank-inflated;** open-creek gain is smaller and comes with a
+  debris/fouling maintenance burden.
+- **Hybrid's +9.9% Cp is one config;** the reliable benefit is self-start + ripple.
+- **The durability study is tidal (2–4 m/s);** its cavitation/leading-edge emphasis
+  does **not** transfer to a low-speed drag Savonius.
+- **Almost no source reports true months-long unattended field endurance** for a
+  small DIY rotor — durability conclusions are extrapolated from larger tidal work
+  and erosion physics, not directly comparable creek trials.
+
+## Open questions (good next experiments)
+
+1. Measured (not CFD) Cp and multi-month endurance of an optimized helical or
+   cambered Savonius at 0.4–1.2 m/s in a real debris-laden creek, including
+   bearing/seal wear and fouling-driven Cp decay.
+2. True open-channel (blockage-corrected) shroud multiplier — does the net gain
+   survive the added clogging/fouling maintenance?
+3. Trash-rack / blockage-ratio / blade-edge geometry that minimizes jamming while
+   preserving self-start torque — and how much Cp that costs.
+4. Low-cost DIY materials/coatings (HDPE/UHMW, epoxy-glass, antifouling) that best
+   resist sediment abrasion, biofouling, and fatigue at this scale.
 
 ## Sources
 
-1. Recent advances in vertical-axis hydrokinetic turbines (review) — sciencedirect.com/science/article/pii/S235248472500695X ✅
-2. Savonius blade-profile CFD (U/V/W vs conventional) — sciencedirect.com/science/article/abs/pii/S0029801821009926 ✅
-3. Cambered-hydrofoil Savonius blade — sciencedirect.com/science/article/abs/pii/S0029801823029451 ✅
-4. Hybrid Savonius–Darrieus hydrokinetic rotor — sciencedirect.com/science/article/pii/S235248471930962X ✅
-5. Optimized Savonius (arc/AR/overlap) — sciencedirect.com/science/article/abs/pii/S0960148122015142 ✅
-6. Cascade-based diffuser-augmented hydrokinetic rotor (Cp 0.415, outer-area normalized) — sciencedirect.com/science/article/abs/pii/S0960148123005219 ✅
-7. Flanged diffuser (wind-lens) flange effect (+28%) — sciencedirect.com/science/article/abs/pii/S0960148118302441 ⚠️
-8. Wind-lens / water-lens (2–5×) — researchgate.net/publication/312564963 ⚠️
-9. VIVACE (vortex-induced vibration) — asmedigitalcollection.asme.org/.../471896 ⚠️
-10. Flow-induced-vibration harvester comparison — sciencedirect.com/science/article/abs/pii/S0960148121018565 ⚠️
-11. Flow-induced-oscillation at very low speed (0.2 m/s) — sciencedirect.com/science/article/abs/pii/S0960148123007437 ⚠️
-12. Tandem flapping-hydrofoil optimization — sciencedirect.com/science/article/abs/pii/S0029801824020110 ⚠️
-13. Tidal-blade erosion mechanisms & leading-edge criticality — sciencedirect.com/science/article/pii/S1350630725007861 ⚠️
+1. Vertical-axis hydrokinetic turbines review — sciencedirect.com/science/article/pii/S235248472500695X ✅
+2. Savonius blade-profile CFD (U/V/W) — sciencedirect.com/science/article/abs/pii/S0029801821009926 ✅
+3. Cambered-hydrofoil Savonius (Ocean Eng. 292, 2024) — sciencedirect.com/science/article/abs/pii/S0029801823029451 ✅
+4. Hybrid Savonius–Darrieus — sciencedirect.com/science/article/pii/S235248471930962X ✅
+5. Optimized semicircular Savonius (Renewable Energy 200, 2022) — sciencedirect.com/science/article/abs/pii/S0960148122015142 ✅
+6. Cascade diffuser-augmented rotor (Cp 0.415) — sciencedirect.com/science/article/abs/pii/S0960148123005219 ✅
+7. Flanged diffuser (wind-lens flange effect) — sciencedirect.com/science/article/abs/pii/S0960148118302441 ✅
+8. Wind-lens / water-lens (~2.5×) — researchgate.net/publication/312564963 ✅ (generic 2–5× ❌ refuted)
+9. VIVACE (vortex-induced vibration) — asmedigitalcollection.asme.org/.../471896 ✅
+10. Flow-induced-vibration harvester comparison — sciencedirect.com/science/article/abs/pii/S0960148121018565 ✅ (one sub-claim ❌ refuted)
+11. Flow-induced oscillation at 0.2 m/s — sciencedirect.com/science/article/abs/pii/S0960148123007437 ✅
+12. Tandem flapping-hydrofoil optimization — sciencedirect.com/science/article/abs/pii/S0029801824020110 ✅
+13. Tidal-blade erosion mechanisms (Eng. Failure Analysis, 2025) — sciencedirect.com/science/article/pii/S1350630725007861 ✅
 14. Field-testing of model helical-bladed hydrokinetic turbines — sciencedirect.com/science/article/abs/pii/S0960148118304609
 
-*Verification note: 25 extracted claims were adversarially checked (3 independent
-skeptic votes each); 12 confirmed, 1 refuted, and 12 (mostly frontier/durability)
-left unverified when the run hit a usage limit. The Savonius/hybrid/diffuser Cp
-numbers above are the confirmed set; frontier and durability items are flagged ⚠️.*
+**Refuted (do not cite as fact):** Gorlov helical Cp ~0.45 [1]; generic wind-lens
+2–5× multiplier [8]; "fluttering foil ranks third among FIV harvesters" [10].
+
+*Full run: 25 claims verified (3 votes each) → 22 confirmed, 3 refuted, 0 unverified.*
