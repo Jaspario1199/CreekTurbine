@@ -81,6 +81,26 @@ the headroom is best spent on either a **bigger battery** (more buffer / longer
 autonomy) or **more base ballast** (stability in a faster creek — heavier is
 better there). The heaviest single item is usually the battery, then the housing.
 
+## Shallow water is the binding constraint
+
+The rotor can only be as tall as the water is deep, so **the shallowest spot you
+deploy in caps the rotor height — and thus the power.** Because frontal area is
+diameter × height, a shallow creek forces a *short, wide* rotor. If you must run
+in ~6 in (0.15 m), the rotor is only ~0.12 m tall and power is small unless the
+water is fast; the same unit in 2–3 ft makes several times more from the same
+diameter. **Deploy in the deepest part of your range you can**, and if you need
+laptop-level energy from shallow water, build a little head (see
+[BOX_AND_DUCT.md](BOX_AND_DUCT.md)) rather than fighting the depth. Sit the rotor
+low with a wide, weighted base so it stays submerged as the creek rises and falls.
+
+## Tough outer shell
+
+The housing drags on gravel and gets knocked by rocks, so make the **outer**
+scuff-resistant: an **HDPE/UHMW** shell (kayak/cutting-board plastic), or a printed
+**ASA/PCTG** shell with a **truck-bed-liner** coating, plus a bolt-on **UHMW skid
+plate** on the base and **TPU corner bumpers** that take the abuse and swap out
+cheaply. See [../cad/README.md](../cad/README.md#scuff--abrasion-resistant-outer-shell).
+
 ## Two variants
 
 - **Top-stays-dry (recommended, shown above):** outlets live while it runs. Needs

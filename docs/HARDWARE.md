@@ -73,6 +73,7 @@ for a lighter kit and add:
 | Portable **LiFePO4 pack** (e.g. 300–500 Wh) | the buffer that gives smooth, instant, 24/7 power | 150–350 |
 | **Multi-input charge controller** (turbine + solar + USB-C) | your "switch between sources" | 30–90 |
 | Fast anchor kit (stake + guy line / sandbags) | deploy in minutes | 15–35 |
+| **Scuff-resistant outer**: HDPE/UHMW shell (or ASA + bed-liner coat) + **UHMW skid plate** + **TPU corner bumpers** | takes gravel drag and rock knocks; skid/bumpers are cheap sacrificial wear parts | 20–70 |
 
 Use a **higher bus voltage (24–48 V)** for anything but the shortest cable run —
 it slashes the copper needed and the volt-drop (the model shows ~16× less copper

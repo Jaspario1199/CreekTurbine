@@ -43,3 +43,20 @@ point, not a guarantee they line up with your specific scoop pipe.
   epoxy on the end plates for a multi-season part.
 - Anything structural underwater should really be **metal**; treat printed parts
   as brackets and jigs, not the primary wet load path.
+
+### Scuff- / abrasion-resistant outer shell
+
+The housing drags on gravel and takes rock knocks, so the **outer** wants to be
+tougher than a printed wall:
+
+- **Best: HDPE or UHMW-PE** — a cut plastic barrel, sheet, or machined block. It's
+  what kayaks and cutting boards are made of: extremely scuff/abrasion resistant,
+  tough, near-zero water absorption. (Trade-off: hard to 3D-print or glue — bolt
+  and gasket it instead.)
+- **Printed alternative: ASA** (UV + impact) or **PCTG / PETG-CF**, with a thick
+  wall — then add a rugged skin: a **truck bed-liner coating** (e.g. roll-on
+  polyurethane) sprayed over the shell resists scuffs well.
+- **Sacrificial bottom skid + corner bumpers:** a bolt-on **UHMW skid plate** on
+  the base and **TPU bumpers** on the corners take the abuse and are cheap to
+  replace. This is the highest-value scuff protection for the least effort.
+
