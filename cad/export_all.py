@@ -20,6 +20,8 @@ PARTS = [
     "generator_mount",
     "savonius_blade",
     "mag_coupling_disc",
+    "bulkhead",
+    "trash_rack",
 ]
 
 

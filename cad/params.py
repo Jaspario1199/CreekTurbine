@@ -72,6 +72,27 @@ MAG_POCKET_CLEAR = 0.2   # mm, added to pocket diameter for a press/glue fit
 MAGDISC_DIA = 2 * MAG_MEAN_RADIUS + MAG_DIA + 12.0   # mm, disc outer diameter
 MAGDISC_THK = MAG_THK + 3.0                          # mm, magnet depth + back wall
 
+# --- Bulkhead / sealing plate (the non-magnetic wall the coupling drives through)
+# NON-MAGNETIC material only (polycarbonate, fiberglass, aluminium/316) — never
+# plain steel, which shorts the magnetic flux. Thin at the CENTER (that thickness
+# is part of the coupling gap — keep it small); thick, bolted, O-ring-sealed rim.
+BULKHEAD_DIA = MAGDISC_DIA + 30.0        # mm, outer diameter (flange beyond the discs)
+BULKHEAD_CENTER_THK = 2.0                # mm, thin membrane the magnets couple through
+BULKHEAD_FLANGE_THK = 8.0                # mm, thick sealing rim
+BULKHEAD_MEMBRANE_DIA = MAGDISC_DIA + 8.0  # mm, thin zone covering the magnet ring
+BULKHEAD_BOLTS = 8                       # clamp bolts around the rim
+BULKHEAD_BOLT_CIRCLE = BULKHEAD_DIA - 14.0  # mm
+BULKHEAD_ORING_MEAN = MAGDISC_DIA + 18.0    # mm, O-ring groove mean diameter
+BULKHEAD_ORING_W = 3.0                   # mm, groove width (for a ~2.5 mm O-ring)
+BULKHEAD_ORING_DEPTH = 2.0               # mm, groove depth
+
+# --- Trash rack / intake screen (sheds debris — the top field-failure) ------
+RACK_DIA = 160.0           # mm, screen outer diameter (size to your intake)
+RACK_THK = 6.0            # mm
+RACK_BAR = 4.0            # mm, bar width
+RACK_GAP = 10.0          # mm, slot gap (debris larger than this is shed)
+RACK_RIM = 8.0           # mm, solid outer rim width
+
 # --- Generator mount (bracket carrying the PMA above the water) ------------
 MOUNT_PLATE = 140.0        # mm, square top plate the PMA bolts onto
 MOUNT_THK = 8.0            # mm

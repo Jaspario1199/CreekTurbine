@@ -178,7 +178,8 @@ scripts/
   demo_sim.py        # render the whole picture book to ./output
 cad/
   params.py          # printed-part dimensions (mm) — edit to match your hardware
-  parts/             # end plate ×2, shaft coupler, generator mount (parametric)
+  parts/             # helical blade, end plates, mag-coupling discs, bulkhead,
+                     #   trash rack, shaft coupler, generator mount (parametric)
   export_all.py      # -> cad/step/*.step + cad/stl/*.stl
 tests/               # 46 checks on the physics/energy/generator/siting math
 docs/
@@ -189,6 +190,7 @@ docs/
   SELF_CONTAINED.md  # all-in-one "box with a handle" set-in-the-creek unit
   RESEARCH_ROTORS.md # cited survey: high-Cp + durable rotor geometries (+ comparison table)
   MAG_COUPLING.md    # sealed magnetic coupling — the no-leak wet→dry crossing
+  ASSEMBLY.md        # full build order stitching every part + subsystem together
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan
@@ -211,6 +213,10 @@ The genuinely hard, risky parts are called out honestly: **matching a generator
 to a slow shaft**, **keeping it dry and alive in a creek**, and the **legal/
 environmental** rules you must settle *before* building. See
 **[docs/ROADMAP.md](docs/ROADMAP.md)**.
+
+**Ready to build?** [docs/ASSEMBLY.md](docs/ASSEMBLY.md) is the full,
+phase-by-phase build order — plan in software → print/buy parts → rotor →
+sealed drivetrain → dry electronics → housing/intake → bench test → wet install.
 
 > ⚠️ **Before you build, read [docs/SAFETY.md](docs/SAFETY.md).** A hydro source
 > runs 24/7 and can't be switched off like a solar panel — it *needs* a charge

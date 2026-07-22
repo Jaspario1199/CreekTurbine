@@ -59,6 +59,31 @@ def continuity_velocity(mean_velocity: float, area_from: float, area_to: float) 
     return mean_velocity * area_from / area_to
 
 
+def screen_open_ratio(bar_width: float, gap: float) -> float:
+    """Fraction of a barred trash rack that is open to flow: gap/(bar+gap).
+
+    A screen with too little open area becomes the blockage it was meant to
+    prevent — it backs water up and the flow accelerates through the openings.
+    """
+    if bar_width < 0 or gap <= 0:
+        raise ValueError("bar_width >= 0 and gap > 0 required")
+    return gap / (bar_width + gap)
+
+
+def screen_approach_velocity(channel_velocity: float, open_ratio: float) -> float:
+    """Water speed through the screen openings (continuity: v/open_ratio).
+
+    Two failure modes to balance: a LOW open ratio backs water up (head loss) and
+    starves the rotor; a HIGH face velocity pins debris (and fish) against the
+    bars instead of letting the current sweep them off. A downstream-leaning rack
+    helps debris ride up and over. NOTE: keeping small FISH off a screen needs a
+    much larger, finer, low-velocity screen (guidelines are ~0.1-0.15 m/s) — a
+    separate structure from this debris rack; check local rules ([SITING.md])."""
+    if not (0 < open_ratio <= 1):
+        raise ValueError("open_ratio must be in (0, 1]")
+    return channel_velocity / open_ratio
+
+
 @dataclass
 class CreekMeasurement:
     """A tidy record of one site measurement, with derived quantities."""

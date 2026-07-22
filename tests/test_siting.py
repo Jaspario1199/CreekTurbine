@@ -28,6 +28,23 @@ def test_continuity_speed_up():
         siting.continuity_velocity(0.5, 1.0, 0.0)
 
 
+def test_screen_open_ratio():
+    # 4 mm bar, 10 mm gap -> 10/14 ≈ 0.714 open
+    assert siting.screen_open_ratio(4.0, 10.0) == pytest.approx(10 / 14)
+    assert siting.screen_open_ratio(0.0, 10.0) == pytest.approx(1.0)
+    with pytest.raises(ValueError):
+        siting.screen_open_ratio(4.0, 0.0)
+
+
+def test_screen_approach_velocity():
+    # flow speeds up through the openings by 1/open_ratio
+    assert siting.screen_approach_velocity(0.5, 0.5) == pytest.approx(1.0)
+    with pytest.raises(ValueError):
+        siting.screen_approach_velocity(0.5, 0.0)
+    with pytest.raises(ValueError):
+        siting.screen_approach_velocity(0.5, 1.5)
+
+
 def test_creek_measurement_dataclass():
     m = siting.CreekMeasurement(width_m=1.6, avg_depth_m=0.4,
                                 float_distance_m=5.0, float_seconds=9.5)
