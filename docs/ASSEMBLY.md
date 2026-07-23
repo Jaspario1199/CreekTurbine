@@ -97,21 +97,25 @@ connectors, ballast, fasteners, O-ring, sealed enclosure.
 
 ## Phase 6 — Bench test BEFORE the creek
 
-Spin the rotor shaft with a drill/by hand and confirm, dry:
+Run **[TEST_PROTOCOL.md](TEST_PROTOCOL.md) tests B1–B5** — each has a procedure,
+a pass/fail gate, and a number to record:
 
-- [ ] Generator reaches **cut-in** and **charges the battery** at your creek's rpm
-      (the number from `size_turbine`).
-- [ ] The **dump load** heats up when the battery is full (fill it and check).
-- [ ] The coupling transmits torque and **slips** at overload, not before.
-- [ ] Nothing binds; bearings run free; the enclosure is **water-tight** (submerge
-      the empty sealed housing and check for ingress).
+- [ ] **B1** generator Ke + real **cut-in** rpm (charging at working rpm)
+- [ ] **B2** coupling **slip torque** ≥ 2× operating; axial pull handled
+- [ ] **B3** drivetrain **drag torque** < 10 % of operating
+- [ ] **B4** dry canister passes the **24 h submersion** (paper-towel test)
+- [ ] **B5** controller **idle draw** measured → `CONTROLLER_IDLE_W`
+- [ ] Plus: the **dump load** gets warm with a full battery (fill it and check).
 
 ## Phase 7 — Wet commissioning
 
 1. Physically **block/lift the rotor** while you place and anchor the unit.
 2. Set it so the rotor is submerged, outlets dry; secure ballast + stake.
 3. Release the rotor; confirm it **self-starts** and the battery begins charging.
-4. Walk the [SAFETY.md](SAFETY.md) pre-power checklist. Plan to **pull it before
+4. Run **[TEST_PROTOCOL.md](TEST_PROTOCOL.md) F1–F4**: site numbers, funnel
+   confinement calibration, real Cp, and the **72-hour unattended soak** — the
+   unit hasn't graduated to unattended duty until F4 passes.
+5. Walk the [SAFETY.md](SAFETY.md) pre-power checklist. Plan to **pull it before
    floods/freezes**.
 
 ---

@@ -197,7 +197,8 @@ docs/
   RESEARCH_ROTORS.md # cited survey: high-Cp + durable rotor geometries (+ comparison table)
   MAG_COUPLING.md    # sealed magnetic coupling — the no-leak wet→dry crossing
   ASSEMBLY.md        # full build order stitching every part + subsystem together
-  CRITIQUE.md        # the red-team audit: 18 findings, each fixed/documented/tracked
+  CRITIQUE.md        # the red-team audit: 19 findings, each fixed/documented/tracked
+  TEST_PROTOCOL.md   # bench + field tests (B1–B5, F1–F4) that calibrate the model
   SAFETY.md          # water + electricity + a spinning rotor: read this
   HARDWARE.md        # BOM + the generator problem (cut-in, low rpm)
   ROADMAP.md         # phase-by-phase build plan

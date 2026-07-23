@@ -42,10 +42,15 @@ change), **ACCEPTED** (known limit, stated honestly), **OPEN** (needs field data
 
 ## What deliberately remains open (needs a wet prototype, not more modeling)
 
-1. Field-calibrated funnel `confinement` (float test through the throat).
-2. Measured rotor Cp vs. the profile presets at creek Reynolds numbers.
-3. Real fouling/sediment maintenance interval for rack + throat.
-4. Coupling slip torque verified on the bench vs. the τ·A·R estimate.
+Each open item now has a concrete procedure with pass/fail gates and a
+feed-back-into-config step in **[TEST_PROTOCOL.md](TEST_PROTOCOL.md)**:
+
+1. Field-calibrated funnel `confinement` → protocol **F2**.
+2. Measured rotor Cp vs. the profile presets → protocol **F3**.
+3. Real fouling/sediment maintenance interval → protocol **F4**.
+4. Coupling slip torque verified on the bench → protocol **B2**
+   (plus generator cut-in **B1**, drivetrain drag **B3**, watertightness **B4**,
+   controller idle **B5**).
 
 *Everything in the tables is implemented in the same commit series that added this
 file; `python -m pytest` (115 checks) and `python -m cad.export_all` (7 parts)
