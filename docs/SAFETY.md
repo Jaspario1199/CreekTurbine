@@ -11,6 +11,10 @@ that never wants to stop. Read this before the build, not after.
   → Install a **charge controller with a dump/diversion load** (a resistor bank
   or a heating element) that soaks up power when the battery is full. This is not
   optional on a turbine.
+  → **Wire the dump on the GENERATOR side, before the BMS.** The sneaky failure:
+  a full or cold battery makes the BMS open its disconnect — and a dump load wired
+  behind it vanishes along with the battery, leaving the PMA open-circuit to
+  overspeed. The clamp/dump must be somewhere a BMS can never disconnect it.
 - **Fuse everything.** A fuse at the battery **+** terminal (sized to the wiring)
   is the single most important safety part in the box. A shorted lead-acid or
   LiFePO4 battery can deliver hundreds of amps and start a fire.

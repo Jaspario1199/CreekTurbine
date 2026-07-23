@@ -6,11 +6,11 @@ the shaft up to the dry generator**:
 
 | Part | What it is | Print notes |
 |------|-----------|-------------|
-| `end_plate` | Top & bottom discs that clamp the scoops and carry the shaft hub. Print **2**. | PETG, 4+ walls, 40%+ infill. Overhangs the scoops on purpose (raises Cp). |
-| `savonius_blade` | Helical (twisted) Savonius scoop — the research-backed rotor blade. Print **`SCOOP_COUNT`** (default 2). | PETG/ASA, 4+ walls; print upright. Twist = `BLADE_TWIST_DEG`; set 0 for a straight rotor. See [RESEARCH_ROTORS.md](../docs/RESEARCH_ROTORS.md). |
+| `end_plate` | Top & bottom discs with **profile-matched grooves** that seat the blade ends (a twisted edge can't take a bolt — it drops into its groove and is epoxied; bolt rings become clamping/through-rod holes). Print **2** identical; clock the top one to the blade twist at assembly. | PETG, 4+ walls, 40%+ infill. At Ø370 mm it exceeds most beds — **cut from HDPE sheet/plywood using the STEP as a template** for full-size rotors; print only small ones. Overhangs the scoops on purpose (raises Cp). |
+| `savonius_blade` | Helical Savonius scoop — **one printable SEGMENT** (a full blade exceeds every consumer printer's Z). Print **`SCOOP_COUNT × BLADE_SEGMENTS`** copies (default 2×3); segments are identical — stack each rotated by `BLADE_SEG_TWIST`, register on 3 mm pins (filament) in the end-face holes, epoxy the joints. | PETG/ASA, 4+ walls; print upright. Twist = `BLADE_TWIST_DEG`; set 0 for straight. `BLADE_SEGMENTS` auto-computes from `PRINTER_MAX_Z`. |
 | `shaft_coupler` | Joins the rotor shaft to the generator shaft; radial set screws. | Print solid-ish (PETG/ABS/nylon), or buy a metal coupler and use this as the fit reference. |
 | `mag_coupling_disc` | Magnetic-coupling disc — ring of magnet pockets + shaft hub. Print **2** (wet + dry). Seals the wet→dry crossing with no shaft seal. | PETG; press magnets in alternating polarity. Seal/pot the wet disc's magnets. See [MAG_COUPLING.md](../docs/MAG_COUPLING.md). |
-| `bulkhead` | The sealed wall the coupling drives through: thin center membrane + bolted, O-ring-grooved rim. Print **1**. | **NON-MAGNETIC only** (polycarbonate/fiberglass/aluminium) — never plain steel. |
+| `bulkhead` | The sealed wall the coupling drives through: thin center membrane + bolted, O-ring-grooved rim. | **Don't print it** — it's a flat disc: **cut from 3 mm PC/acrylic/FR4 sheet** using the STEP as a drill template. **NON-MAGNETIC only** — never plain steel. |
 | `trash_rack` | Barred intake screen that sheds debris (the #1 field failure). Print **1+**. | PETG/ASA; angle it downstream-leaning. Size open area via `siting.screen_*`. |
 | `generator_mount` | Top plate the PMA bolts to, standing above the waterline on legs. | PETG, 5+ walls. |
 

@@ -49,11 +49,13 @@ block back-feed.
 ### Electrical
 | Item | Notes | ~USD |
 |------|-------|-----:|
-| **Low-Kv PMA / hub motor generator** | the heart — match Ke to the report | 40–150 |
+| **Low-Kv PMA / hub motor generator** | the heart. REALITY CHECK: buyable PMAs top out ~0.10–0.15 V/rpm — if the report recommends more, use a **boost MPPT** (below) or a belt step-up; don't shop for a unicorn | 40–150 |
 | 3-phase bridge rectifier (or Schottky diodes) | AC → DC | 8–20 |
-| **Charge controller w/ dump/diversion load** | MPPT or PWM + a resistor/heater dump — **mandatory** | 25–90 |
-| **Dump/diversion resistor or heating element** | soaks up power when the battery is full | 10–25 |
-| **LiFePO4 battery** (12 V, sized by the report, e.g. 20–50 Ah) | with BMS; safest chemistry | 60–180 |
+| **BOOST-type MPPT charge controller w/ dump load** | steps a few volts of slow-PMA output UP to the battery — the modern fix for slow-rotor cut-in. Spec **low quiescent draw (<10 mA)**: a 25 mA idler eats 15 %+ of a small harvest, 24/7 | 30–100 |
+| **Dump/diversion resistor or heating element** | soaks up power when the battery is full — wired **generator-side, before the BMS** (see SAFETY) | 10–25 |
+| **LiFePO4 battery** (12 V, sized by the report, e.g. 20–50 Ah) | BMS **must include low-temperature charge cutoff** (LiFePO4 won't take charge below 0 °C) | 60–180 |
+| **Thrust / angular-contact bearings** (pair) | the magnetic coupling's discs pull together with ~300–400 N constantly — plain radial bearings grind flat | 10–30 |
+| **12 V → USB-C PD buck module (45–65 W)** | what actually charges the laptop from the battery | 12–30 |
 | **Main fuse + holder** at the battery + terminal | the most important safety part | 5–15 |
 | Marine tinned wire, gel/heatshrink connectors, sealed enclosure | corrosion is relentless near water | 25–60 |
 | (optional) 12 V→USB / small pure-sine inverter | to actually use the power | 15–60 |

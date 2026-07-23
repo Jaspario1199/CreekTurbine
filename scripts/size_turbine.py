@@ -90,24 +90,36 @@ def main() -> None:
         print(" GENERATOR MATCH (the part people get wrong):")
         if math.isfinite(ke):
             print(f"   Rotor turns ~{rpm_design:.0f} rpm at {ve:.2f} m/s — that's SLOW.")
-            print(f"   For a {cfg.system_voltage:.0f} V bus to cut in at your low-season "
-                  f"~{low_v:.2f} m/s, pick a PMA with Ke ≈ {ke:.3f} V/rpm "
-                  f"(≈ {1/ke:.0f} rpm/V).")
-            ratio = gen_mod.step_up_ratio_for_rpm(rot, ve, 350.0)
-            if math.isfinite(ratio) and ratio > 1.5:
-                print(f"   Or direct-drive a low-Kv PMA; to instead use a common "
-                      f"~350 rpm motor you'd need a ≈ {ratio:.0f}:1 belt/gear step-up.")
+            print(f"   Ideal direct-drive PMA: Ke ≈ {ke:.3f} V/rpm "
+                  f"(≈ {1/ke:.0f} rpm/V) to cut in at low-season ~{low_v:.2f} m/s.")
+            opts = gen_mod.practical_options(ke)
+            if opts["buyable"]:
+                print("   ✓ That Ke is purchasable — direct-drive works.")
+            else:
+                print(f"   ✗ REALITY CHECK: no off-the-shelf PMA reaches "
+                      f"{ke:.2f} V/rpm (market tops out ~{gen_mod.MAX_PRACTICAL_KE}).")
+                print(f"     Fix A (recommended): a BOOST-type MPPT controller — "
+                      f"charges the {cfg.system_voltage:.0f} V battery from a few "
+                      f"volts of PMA output, so slow rpm still charges.")
+                print(f"     Fix B: a ≈ {opts['step_up']:.0f}:1 belt/gear step-up "
+                      f"onto a realistic ~0.12 V/rpm PMA.")
         print("-" * 70)
 
         # --- Energy + battery ----------------------------------------------
         p_elec = rot.electrical_power(ve, cfg.generator_efficiency,
                                       cfg.drivetrain_efficiency, rho)
-        daily = en.daily_energy_wh(p_elec, cfg.flow_availability)
+        daily = en.net_daily_energy_wh(p_elec, cfg.controller_idle_w,
+                                       cfg.flow_availability)
         annual = en.annual_energy_kwh(p_elec, cfg.flow_availability)
-        ah = en.battery_capacity_ah(daily, cfg.system_voltage, cfg.days_autonomy,
-                                    cfg.depth_of_discharge)
-        print(f" ENERGY: {p_elec:.1f} W × 24 h × {cfg.flow_availability:.0%} uptime "
-              f"≈ {daily:.0f} Wh/day  ({annual:.0f} kWh/year)")
+        ah = en.battery_capacity_ah(max(daily, 0.0), cfg.system_voltage,
+                                    cfg.days_autonomy, cfg.depth_of_discharge)
+        print(f" ENERGY: ({p_elec:.1f} W × {cfg.flow_availability:.0%} uptime − "
+              f"{cfg.controller_idle_w:.2f} W controller idle) × 24 h "
+              f"≈ {daily:.0f} Wh/day net  (~{annual:.0f} kWh/yr gross)")
+        if daily <= 0:
+            print("   ⚠ NET NEGATIVE: the controller's idle draw exceeds the "
+                  "harvest — the battery drains. Bigger rotor or lower-quiescent "
+                  "controller required.")
         print(f" BATTERY: {ah:.0f} Ah at {cfg.system_voltage:.0f} V "
               f"({cfg.battery_chemistry}) for {cfg.days_autonomy:.0f} days autonomy "
               f"at {cfg.depth_of_discharge:.0%} DoD")

@@ -50,12 +50,15 @@ connectors, ballast, fasteners, O-ring, sealed enclosure.
 
 ## Phase 2 — Rotor assembly
 
-1. Fit the **shaft** through both `end_plate` hubs (heat-set inserts or a keyed/
-   flatted shaft; the lower plate carries the wet coupling disc).
-2. Mount the **helical blades** between the plates, phased evenly
-   (2 blades → 180° apart), overlapped by `SCOOP_OVERLAP` at the center. Through-
-   bolt the blade edges to the plate bolt rings.
-3. Check it spins **true and free** on its bearings before going further.
+1. **Stack each blade from its segments**: `BLADE_SEGMENTS` identical printed
+   pieces per blade, each rotated by `BLADE_SEG_TWIST`, registered on 3 mm pins
+   (filament offcuts) in the end-face holes, joints epoxied.
+2. Fit the **shaft** through both `end_plate` hubs (the lower plate carries the
+   wet coupling disc).
+3. **Seat the blade ends in the plates' profile-matched grooves** (epoxy in the
+   groove), phased evenly (2 blades → 180° apart); clock the top plate to the
+   blade twist. Run the through-rods/bolts in the plate rings as clamps.
+4. Check it spins **true and free** on its bearings before going further.
 
 ## Phase 3 — The sealed drivetrain (the clever bit)
 
@@ -63,18 +66,23 @@ connectors, ballast, fasteners, O-ring, sealed enclosure.
    polarity** (N,S,N,S…); the two rings must mirror so N faces S. Epoxy them in.
    **Seal/pot the WET disc's magnets** (bare NdFeB rusts fast). Mind your fingers.
 2. Mount the **wet disc** on the rotor shaft (below the bulkhead), the **dry disc**
-   on the generator shaft (above it).
-3. Clamp the **`bulkhead`** between them with its O-ring, magnets running close on
-   each face. Keep the **gap small** — it sets the coupling strength
-   ([MAG_COUPLING.md](MAG_COUPLING.md)). Confirm the dry side turns when you turn
-   the wet side, and that it **slips** cleanly past the design torque.
+   on the generator shaft (above it) — **each shaft on a THRUST (or angular-
+   contact) bearing**: the discs pull toward each other with ~350–400 N,
+   constantly ([MAG_COUPLING.md](MAG_COUPLING.md)). Secure against axial creep
+   (collars/circlips) so neither disc can walk into the bulkhead.
+3. Clamp the **`bulkhead`** (cut from 3 mm non-magnetic sheet) between them with
+   its O-ring, magnets running close on each face. Keep the **gap small** — it
+   sets the coupling strength. Confirm the dry side turns when you turn the wet
+   side, and that it **slips** cleanly past the design torque.
 
 ## Phase 4 — Dry stack (generator + electronics)
 
 1. Bolt the **PMA** to the `generator_mount`, coupled to the dry disc.
-2. Wire **PMA → 3-phase rectifier → charge controller → battery**, with the
-   **dump load** on the controller and a **fuse at the battery +**. Add outputs
-   (USB / 12 V / a land-side inverter).
+2. Wire **PMA → 3-phase rectifier → BOOST-MPPT charge controller → battery**,
+   with the **dump/clamp on the generator side, BEFORE the BMS** (a full/cold
+   battery opens the BMS — the dump must survive that) and a **fuse at the
+   battery +**. Add outputs (USB-C PD module for the laptop / 12 V / a land-side
+   inverter).
 3. Everything except the generator lives in the **dry, sealed, elevated** part of
    the housing, above the waterline.
 

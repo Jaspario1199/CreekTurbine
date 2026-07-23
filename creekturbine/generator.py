@@ -102,6 +102,34 @@ def recommend_ke(rotor, cut_in_target_velocity: float, battery_voltage: float) -
     return battery_voltage / rpm_at_target
 
 
+# The highest volts-per-rpm you can realistically BUY in a small PMA. Purpose-
+# wound low-speed axial-flux PMAs reach ~0.10-0.15 V/rpm; the Ke this module
+# often *recommends* for a slow Savonius (0.3-1.0 V/rpm) exceeds anything on the
+# market. That gap is the classic dead-on-arrival DIY mistake, so we check it.
+MAX_PRACTICAL_KE = 0.15
+
+
+def practical_options(ke_recommended: float, practical_ke: float = 0.12) -> dict:
+    """Reality-check a recommended Ke against buyable hardware.
+
+    Returns {"buyable": bool, "step_up": ratio, "boost_mppt": bool}:
+      - buyable:    the recommended Ke exists off the shelf — direct-drive works.
+      - step_up:    belt/gear ratio that lets a realistic `practical_ke` PMA cut
+                    in at the same rotor speed (ke_rec / practical_ke).
+      - boost_mppt: True when the modern no-gears fix applies — a BOOST-type MPPT
+                    charge controller steps a low PMA voltage (2-5 V+) UP to the
+                    battery, so cut-in no longer requires beating battery voltage.
+    """
+    if ke_recommended <= 0:
+        raise ValueError("ke_recommended must be > 0")
+    buyable = ke_recommended <= MAX_PRACTICAL_KE
+    return {
+        "buyable": buyable,
+        "step_up": ke_recommended / practical_ke,
+        "boost_mppt": not buyable,
+    }
+
+
 def step_up_ratio_for_rpm(rotor, velocity: float, desired_generator_rpm: float) -> float:
     """Belt/gear ratio to bring a slow rotor up to a generator's happy rpm.
 

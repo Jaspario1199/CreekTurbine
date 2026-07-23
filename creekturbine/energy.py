@@ -25,6 +25,24 @@ def daily_energy_wh(power_w: float, flow_availability: float = 1.0) -> float:
     return power_w * HOURS_PER_DAY * flow_availability
 
 
+def net_daily_energy_wh(power_w: float, idle_w: float = 0.0,
+                        flow_availability: float = 1.0) -> float:
+    """Daily energy AFTER the electronics' own appetite.
+
+    A charge controller draws its quiescent current 24/7 — including when the
+    creek is dry — so at trickle-charger power levels it is a first-class loss
+    (a typical 20 mA @ 12 V MPPT eats ~0.25 W ≈ 15% of a 1.7 W harvest).
+
+        net = (P_harvest x availability - P_idle) x 24 h
+
+    CAN GO NEGATIVE: that means the controller eats more than the creek makes,
+    and the battery slowly drains — a real failure mode worth surfacing.
+    """
+    if idle_w < 0:
+        raise ValueError("idle_w must be >= 0")
+    return (power_w * flow_availability - idle_w) * HOURS_PER_DAY
+
+
 def annual_energy_kwh(power_w: float, flow_availability: float = 1.0) -> float:
     """kWh per year — the number to compare against your utility bill for fun."""
     return daily_energy_wh(power_w, flow_availability) * DAYS_PER_YEAR / 1000.0

@@ -69,11 +69,22 @@ class FunnelIntake:
     @classmethod
     def universal(cls, creek_depth: float, up_velocity: float,
                   gather_width: float = 0.9, throat_width: float = 0.4,
-                  throat_depth: float = 0.15, confinement: float = 0.82, **kw):
+                  throat_depth: float = 0.15, confinement: float = 0.82,
+                  intake_height: float = 0.35, **kw):
         """A free-standing unit with a FIXED gather width, for any creek that's
-        wider (and at least as deep) than it. The throat can't be deeper than the
-        water, so in shallow creeks the short rotor simply fills the depth."""
-        return cls(up_width=gather_width, up_depth=creek_depth,
+        wider (and at least as deep) than it.
+
+        Two honesty caps: the throat can't be deeper than the water (shallow
+        creeks get a short rotor), and the unit can't gather water deeper than
+        its own intake mouth (`intake_height`) — in a 3 ft creek a 0.35 m-tall
+        mouth only captures the top/bottom 0.35 m; the rest flows past.
+
+        NOTE `confinement` is an engineering ASSUMPTION, not a measured value —
+        free-standing intakes shed flow around themselves and the literature has
+        no clean number for this geometry. Field-calibrate it (measure the
+        throat velocity with a float) before trusting absolute watts."""
+        return cls(up_width=gather_width,
+                   up_depth=min(creek_depth, intake_height),
                    up_velocity=up_velocity, throat_width=throat_width,
                    throat_depth=min(throat_depth, creek_depth),
                    confinement=confinement, **kw)

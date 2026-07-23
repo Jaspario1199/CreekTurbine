@@ -102,6 +102,12 @@ CP_AXIAL = 0.35              # conservative small hydrokinetic prop (good ones ~
 GENERATOR_EFFICIENCY = 0.65  # small PMA at low rpm + 3-phase rectifier losses
 DRIVETRAIN_EFFICIENCY = 0.90  # bearings, shaft seal drag, coupling/belt
 
+# What the charge controller itself eats, 24/7, even with zero flow. A typical
+# small MPPT idles at 15-30 mA on a 12 V bus (~0.2-0.4 W) — at trickle-charger
+# power levels that is a real tax, so it's counted in the energy budget. Shop
+# for low-quiescent controllers (<10 mA) at the small end.
+CONTROLLER_IDLE_W = 0.25     # W, controller quiescent draw
+
 # Flow speed-up you actually achieve at the rotor. 1.0 = none (bare rotor in
 # open water). A narrowed chute or a shroud/diffuser can raise the effective
 # velocity; because power ~ v^3 even a modest 1.2x is a ~1.7x power gain.
@@ -135,6 +141,7 @@ class CreekConfig:
     generator_efficiency: float = GENERATOR_EFFICIENCY
     drivetrain_efficiency: float = DRIVETRAIN_EFFICIENCY
     velocity_augmentation: float = VELOCITY_AUGMENTATION
+    controller_idle_w: float = CONTROLLER_IDLE_W
 
     @property
     def channel_area(self) -> float:

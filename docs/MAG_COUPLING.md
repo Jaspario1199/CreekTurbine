@@ -42,12 +42,25 @@ ring at a 3 mm gap** gives ~**4.2 N·m** — holding the rotor torque with a 2×
 Magnetics is gap-sensitive and the shear coefficient is approximate; build it and
 confirm the slip torque before you rely on it.
 
+## ⚠ The axial pull nobody warns you about
+
+The same magnets that make torque **attract the two discs toward each other with
+a constant ~350–400 N (~35–40 kg)** for the default coupling
+(`AxialMagCoupling.axial_force_n()`, printed by `scripts.mag_coupling`). This
+force rides on the **shaft bearings of both discs** — the non-magnetic bulkhead
+between them feels none of it — and it will grind plain radial bearings flat in
+weeks. **Fit thrust bearings (or angular-contact bearings) on both shafts**,
+rated ≥1.5× the printed pull, and make sure the shaft retention (circlips/collars)
+carries the load without letting a disc creep into the bulkhead.
+
 ## Design levers (in order of impact)
 
 1. **Keep the GAP small.** Field falls off as ~`t/(t+gap)`, so a thick bulkhead
    quietly kills the coupling. Use a **thin, strong, non-magnetic** bulkhead
    (2–3 mm polycarbonate, fiberglass, or aluminium/316 stainless — *not* ordinary
-   steel, which shorts the flux).
+   steel, which shorts the flux). Practical tip: **don't print the bulkhead** —
+   it's a flat disc, so **cut it from 3 mm PC/acrylic/FR4 sheet** and use the
+   STEP file as the drill template.
 2. **Bigger mean radius** — torque scales linearly with R, so spread the magnets
    out on a larger ring.
 3. **More / bigger magnets** — active area scales the torque directly.
@@ -62,8 +75,10 @@ confirm the slip torque before you rely on it.
   (N, S, N, S …) — the two discs' rings must mirror each other so N faces S.
   A dab of epoxy keeps them seated; **mind your fingers**, these snap together hard.
 - Set the running gap with the bulkhead thickness + a small clearance each side.
-- Corrosion: the **wet** disc's magnets must be sealed (epoxy-potted or coated) —
-  bare NdFeB rusts fast in water.
+- Corrosion: the **wet** disc's magnets must be properly potted — fill the
+  pockets with epoxy **and lay a thin continuous epoxy/glass cover coat over the
+  whole magnet face**. A dab of glue is not marine sealing; NdFeB rusts through
+  pinholes. Inspect seasonally.
 
 See the bulkhead and dry-stack layout in [SELF_CONTAINED.md](SELF_CONTAINED.md) and
 [BOX_AND_DUCT.md](BOX_AND_DUCT.md).

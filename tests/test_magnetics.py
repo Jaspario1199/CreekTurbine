@@ -64,3 +64,15 @@ def test_stronger_grade_needs_fewer_magnets():
     n42 = m.magnets_needed(3.0, 15, 55, grade="N42")
     n52 = m.magnets_needed(3.0, 15, 55, grade="N52")
     assert n52 <= n42
+
+
+def test_axial_force_is_large_and_scales():
+    c = m.AxialMagCoupling()
+    f = c.axial_force_n()
+    # the default coupling pulls with hundreds of newtons — the point of the check
+    assert 200 < f < 600
+    # hand value: 0.6 * B^2/(2mu0) * A
+    expect = 0.6 * m.magnetic_pressure(c.b_gap) * c.active_area
+    assert f == pytest.approx(expect)
+    # a bigger gap relaxes the pull
+    assert m.AxialMagCoupling(gap=6.0).axial_force_n() < f

@@ -89,3 +89,12 @@ def test_computed_dry_mass_used_when_no_override():
 def test_override_dry_mass_respected():
     u = sc.SelfContainedUnit(unit_dry_mass_kg=20.0)
     assert u.dry_mass_kg == 20.0
+
+
+def test_flood_drag_dwarfs_operating_drag():
+    u = sc.SelfContainedUnit(velocity=0.8)
+    assert u.flood_drag_n(2.5) > 5 * u.drag_n()
+    # hand value: 0.5*1000*1.1*(0.3*0.65)*2.5^2 = 670 N
+    assert u.flood_drag_n(2.5) == pytest.approx(670.3, abs=1.0)
+    assert u.flood_anchor_force_n(2.5, safety=1.5) == pytest.approx(
+        u.flood_drag_n(2.5) * 1.5)

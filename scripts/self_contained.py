@@ -63,6 +63,13 @@ def main() -> None:
         print(f"   add ≈ {r['required_base_ballast_kg']:.0f} kg of base ballast "
               f"(or a stake/tether) beyond the {r['dry_mass_kg']:.0f} kg unit.")
     print(f"   → a wide, weighted base + one stake makes it 'set-and-forget'.")
+    fd = unit.flood_drag_n()
+    fa = unit.flood_anchor_force_n()
+    print(f" FLOOD CASE (2.5 m/s storm, box fully submerged):")
+    print(f"   drag jumps to ≈ {fd:.0f} N (~{fd/9.81:.0f} kg-force) — ~"
+          f"{fd/max(r['drag_n'],1e-9):.0f}× the operating load.")
+    print(f"   Anchoring to ride it out needs ≥ {fa:.0f} N of stake/tether restraint;")
+    print(f"   the sane plan is a RETRIEVAL LINE and pulling the unit before storms.")
     print("-" * 66)
     wb = unit.weight_breakdown()
     print(" WEIGHT (computed from components):")

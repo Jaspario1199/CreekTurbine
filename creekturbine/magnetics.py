@@ -106,6 +106,19 @@ class AxialMagCoupling:
         return coupling_max_torque(self.active_area, self.mean_radius * 1e-3,
                                    self.b_gap, self.tangential_factor)
 
+    def axial_force_n(self, attraction_factor: float = 0.6) -> float:
+        """Static axial ATTRACTION between the two discs (newtons).
+
+        The same magnets that make torque also pull the discs together with
+        F ≈ k · (B_gap²/2μ₀) · A_active — for the default coupling that's a very
+        real ~350-400 N (~35-40 kg!). This force is constant, rides on the SHAFT
+        BEARINGS of both discs (the non-magnetic bulkhead itself feels none of
+        it), and will grind plain radial bearings flat. Fit THRUST bearings (or
+        angular-contact bearings) on both shafts, rated above this with margin.
+        `attraction_factor` (~0.5-0.7) accounts for pole alternation and leakage.
+        """
+        return attraction_factor * magnetic_pressure(self.b_gap) * self.active_area
+
     def holds(self, required_torque_nm: float, safety: float = 2.0) -> bool:
         """True if the coupling carries `required_torque` with the safety margin."""
         return self.max_torque() >= required_torque_nm * safety

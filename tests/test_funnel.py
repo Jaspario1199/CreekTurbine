@@ -84,3 +84,13 @@ def test_throat_width_for_velocity_respects_critical():
     w = f.throat_width_for_velocity(q, 3.0, 0.15)
     w_crit = q / (f.critical_velocity(0.15) * 0.15)
     assert w == pytest.approx(w_crit)
+
+
+def test_universal_caps_gather_at_intake_height():
+    # a 0.9 m-deep creek can't all be gathered by a 0.35 m-tall mouth
+    deep = f.FunnelIntake.universal(creek_depth=0.9, up_velocity=0.4,
+                                    intake_height=0.35)
+    assert deep.up_depth == pytest.approx(0.35)
+    shallow = f.FunnelIntake.universal(creek_depth=0.15, up_velocity=0.4,
+                                       intake_height=0.35)
+    assert shallow.up_depth == pytest.approx(0.15)

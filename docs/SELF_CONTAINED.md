@@ -57,6 +57,13 @@ the submerged section, while the top stays above water (the "freeboard") so the
 outlets are dry. Want more power? A bigger box, a deeper/faster spot, or the
 built-in-head **[box design](BOX_AND_DUCT.md)** — same honest v³ physics.
 
+**2b. The FLOOD case is what actually rips units out.** Drag grows with velocity²,
+so a 2.5 m/s storm flow pushes the fully-submerged box with ~**670 N (~10× the
+operating load)** — beyond any reasonable ballast. The model prints the flood
+drag and required restraint (`flood_drag_n` / `flood_anchor_force_n`); the sane
+plan is a **permanent retrieval line to the bank and pulling the unit before
+storms**, with the stake/tether as the backstop for the storm you missed.
+
 **2. Stability — will the current push it over or downstream?**
 This is the real catch of a free-standing box. The flow exerts a drag force
 `½·ρ·Cd·A·v²` on the submerged body — ~32 N for that example, and it grows with v².

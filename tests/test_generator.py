@@ -58,3 +58,20 @@ def test_step_up_ratio_positive_for_slow_rotor():
 def test_zero_ke_never_cuts_in():
     g = gen_mod.Generator(ke_dc=0.0)
     assert g.cut_in_rpm(12.0) == math.inf
+
+
+def test_practical_options_flags_unbuyable_ke():
+    # 0.5 V/rpm doesn't exist off the shelf -> boost MPPT or ~4:1 step-up
+    opts = gen_mod.practical_options(0.5)
+    assert not opts["buyable"] and opts["boost_mppt"]
+    assert opts["step_up"] == pytest.approx(0.5 / 0.12)
+
+
+def test_practical_options_accepts_buyable_ke():
+    opts = gen_mod.practical_options(0.10)
+    assert opts["buyable"] and not opts["boost_mppt"]
+
+
+def test_practical_options_rejects_bad_input():
+    with pytest.raises(ValueError):
+        gen_mod.practical_options(0.0)

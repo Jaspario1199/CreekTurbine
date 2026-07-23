@@ -58,6 +58,14 @@ def main() -> None:
           f"{coupling.b_gap:.2f} T)")
     print(f"   → {'✓ holds' if cap >= torque*args.safety else '✗ short'} the "
           f"{torque*args.safety:.2f} N·m target.")
+    axial = coupling.axial_force_n()
+    print("-" * 66)
+    print(f" ⚠ AXIAL PULL: the discs attract each other with ≈ {axial:.0f} N "
+          f"(~{axial/9.81:.0f} kg), constantly.")
+    print(f"   This rides on the SHAFT BEARINGS of both discs — fit THRUST (or")
+    print(f"   angular-contact) bearings rated ≥ {axial*1.5:.0f} N on each side,")
+    print(f"   or the drivetrain grinds itself flat. Plain radial bearings alone")
+    print(f"   will NOT survive this. (The bulkhead itself feels none of it.)")
     print("-" * 66)
     print(" Design levers (in order of impact):")
     print("   • SMALLER GAP is king — field ~ t/(t+gap); a thin bulkhead matters most")

@@ -30,6 +30,23 @@ SCOOP_OVERLAP = 0.15       # fraction of bucket diameter the two scoops overlap
 BLADE_THK = 4.0            # mm, printed scoop wall thickness
 BLADE_TWIST_DEG = 180.0    # total helical twist over ROTOR_HEIGHT (0 = straight)
 
+# Printability: a 540 mm blade fits NO consumer printer, so the blade exports as
+# ONE stackable segment — print SCOOP_COUNT × BLADE_SEGMENTS copies (segments are
+# identical; each is the previous rotated by the segment twist), register them on
+# 3 mm pins (filament works) through the end-face pin holes, and epoxy.
+PRINTER_MAX_Z = 240.0      # mm, your printer's usable Z height
+import math as _math
+BLADE_SEGMENTS = max(1, _math.ceil(ROTOR_HEIGHT / (PRINTER_MAX_Z - 10.0)))
+BLADE_SEG_H = ROTOR_HEIGHT / BLADE_SEGMENTS       # mm, one segment's height
+BLADE_SEG_TWIST = BLADE_TWIST_DEG / BLADE_SEGMENTS  # deg twist per segment
+BLADE_PIN_DIA = 3.2        # mm, alignment pin hole (3 mm pin / filament)
+BLADE_PIN_DEPTH = 6.0      # mm, pin hole depth in each face
+
+# End plates seat the blade ends in profile-matched GROOVES (cut from the same
+# profile definition in cad/lib.py) — a twisted blade edge can't take a bolt, so
+# it drops into a recess and gets clamped/epoxied instead.
+PLATE_GROOVE_DEPTH = 2.5   # mm, blade-seat groove depth in each end plate
+
 # --- Shafts / bearings -- MEASURE these on the parts you buy ----------------
 SHAFT_DIA = 16.0           # mm, rotor shaft (stainless, e.g. 16 mm)
 GEN_SHAFT_DIA = 8.0        # mm, your generator/PMA input shaft

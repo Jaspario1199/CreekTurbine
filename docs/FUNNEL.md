@@ -66,6 +66,14 @@ There's a real fork here:
   through. The model captures this with a **`confinement`** factor (~0.82 for a
   free-standing unit; 1.0 for a walled weir).
 
+  > ⚠ **`confinement` is an engineering assumption, not a measured value.** The
+  > literature has no clean number for a free-standing intake in an open creek,
+  > and the real figure could plausibly be 0.6–0.9 depending on wing-wall length
+  > and bed sealing. **Field-calibrate it**: float a stick through the throat,
+  > time it, and set `confinement` so the model matches — *then* trust the watts.
+  > The unit also can't gather deeper than its own mouth (`intake_height`), which
+  > the model now caps.
+
 ### A universal unit for any creek ≥ 4 ft wide
 
 Give it a **0.9 m (3 ft) gather mouth** and it fits any creek wider than ~4 ft

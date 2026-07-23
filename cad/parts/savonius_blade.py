@@ -1,42 +1,43 @@
 """
-Helical Savonius BLADE (print SCOOP_COUNT of these).
+Helical Savonius BLADE — one printable SEGMENT.
 
-Research (docs/RESEARCH_ROTORS.md) points at an optimized Savonius as the best
-Cp-vs-durability balance for an unattended creek unit, with a HELICAL twist for
-self-start-at-any-angle, smooth torque, and debris shedding. This part is one
-twisted scoop: a curved (C-section) blade twist-extruded about the rotor axis.
+Research (docs/RESEARCH_ROTORS.md) picks an optimized Savonius with a HELICAL
+twist for self-start-at-any-angle, smooth torque, and debris shedding. A full
+blade is ROTOR_HEIGHT tall (too tall for any consumer printer), so this part is
+ONE stackable segment of it:
 
-Assembly: print SCOOP_COUNT blades, phase them evenly (2 blades → 180° apart),
-overlap them by SCOOP_OVERLAP at the center, and clamp top and bottom between the
-`end_plate` discs on the shaft. Set BLADE_TWIST_DEG = 0 in params for a straight
-(non-helical) rotor.
+  * Print SCOOP_COUNT x BLADE_SEGMENTS copies of this ONE part — segments of a
+    helix are identical; each sits on the last rotated by BLADE_SEG_TWIST.
+  * Register segments with 3 mm pins (a scrap of filament) in the end-face pin
+    holes, epoxy the joints, and seat the finished blade ends in the end plates'
+    profile-matched grooves (see end_plate.py).
+
+Set BLADE_TWIST_DEG = 0 in params for a straight (non-helical) rotor; the
+segmenting and pins still apply. The cross-section itself lives in cad/lib.py so
+the blade and the end-plate grooves can never drift apart.
 """
 
 import cadquery as cq
 
 from cad import params as P
+from cad import lib
 
 
 def build():
-    # Bucket geometry derived from the rotor diameter and overlap.
-    bucket_dia = P.ROTOR_DIA / (2.0 - P.SCOOP_OVERLAP)   # mm
-    outer = bucket_dia / 2.0
-    inner = max(1.0, outer - P.BLADE_THK)
-    # Offset the bucket centre from the rotor axis so the twist wraps the shaft.
-    off = bucket_dia * (1.0 - P.SCOOP_OVERLAP) / 2.0
+    # One segment: the shared C-profile twist-extruded by the per-segment twist.
+    blade = lib.savonius_profile(
+        cq.Workplane("XY"), P.ROTOR_DIA, P.SCOOP_OVERLAP, P.BLADE_THK
+    ).twistExtrude(P.BLADE_SEG_H, P.BLADE_SEG_TWIST)
 
-    # C-shaped (half-annulus) cross-section: an outer semicircle out and an inner
-    # semicircle back, closed into a thin curved shell.
-    profile = (
-        cq.Workplane("XY")
-        .moveTo(off + outer, 0)
-        .threePointArc((off, outer), (off - outer, 0))    # outer arc (bulges +y)
-        .lineTo(off - inner, 0)
-        .threePointArc((off, inner), (off + inner, 0))    # inner arc back
-        .close()
-    )
-
-    blade = profile.twistExtrude(P.ROTOR_HEIGHT, P.BLADE_TWIST_DEG)
+    # Alignment pin holes: bottom face at 0°, top face rotated by the segment
+    # twist (where the profile has arrived). 2 pins per interface.
+    for z0, height, ang in ((0.0, P.BLADE_PIN_DEPTH, 0.0),
+                            (P.BLADE_SEG_H - P.BLADE_PIN_DEPTH, P.BLADE_PIN_DEPTH,
+                             P.BLADE_SEG_TWIST)):
+        pts = lib.blade_pin_points(P.ROTOR_DIA, P.SCOOP_OVERLAP, P.BLADE_THK, ang)
+        pins = (cq.Workplane("XY").workplane(offset=z0)
+                .pushPoints(pts).circle(P.BLADE_PIN_DIA / 2.0).extrude(height))
+        blade = blade.cut(pins)
     return blade
 
 

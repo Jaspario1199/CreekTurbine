@@ -183,6 +183,22 @@ class SelfContainedUnit:
         return drag_force_n(self.submerged_body_area, self.velocity, self.cd_drag,
                             self.rho)
 
+    # --- flood survival (the load case that actually kills field units) -----
+    def flood_drag_n(self, flood_velocity: float = 2.5) -> float:
+        """Drag in a FLOOD: the whole box submerged at storm velocity.
+
+        Because drag ∝ v², a 2.5 m/s flood pushes ~10x harder than a 0.8 m/s
+        operating flow — this, not normal operation, sizes the anchoring (or,
+        more sensibly, the decision to PULL THE UNIT before storms).
+        """
+        flood_area = self.box_diameter * self.box_height  # fully submerged
+        return drag_force_n(flood_area, flood_velocity, self.cd_drag, self.rho)
+
+    def flood_anchor_force_n(self, flood_velocity: float = 2.5,
+                             safety: float = 1.5) -> float:
+        """Horizontal restraint (stake/tether) needed to survive that flood."""
+        return self.flood_drag_n(flood_velocity) * safety
+
     def required_base_ballast_kg(self, safety: float = 2.0) -> float:
         """Extra ballast (kg) the base needs beyond the unit's own weight.
 

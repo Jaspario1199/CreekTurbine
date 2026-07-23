@@ -42,3 +42,18 @@ def test_what_it_runs_flags_fit():
 def test_what_it_runs_zero_budget():
     rows = en.what_it_runs(0.0)
     assert all(not ok for _, ok, _ in rows)
+
+
+def test_net_daily_energy_subtracts_idle():
+    # (5 W * 0.75 - 0.25 W) * 24 = 84 Wh
+    assert en.net_daily_energy_wh(5.0, 0.25, 0.75) == pytest.approx(84.0)
+    # zero idle == gross
+    assert en.net_daily_energy_wh(5.0, 0.0, 0.75) == pytest.approx(
+        en.daily_energy_wh(5.0, 0.75))
+
+
+def test_net_daily_energy_can_go_negative():
+    # controller eats more than the harvest -> battery drains (warned, not hidden)
+    assert en.net_daily_energy_wh(0.2, 0.3, 1.0) < 0
+    with pytest.raises(ValueError):
+        en.net_daily_energy_wh(1.0, -0.1)
