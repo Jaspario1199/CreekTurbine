@@ -59,7 +59,24 @@ class FunnelIntake:
     cp: float = 0.19
     eta_generator: float = 0.65
     eta_drivetrain: float = 0.90
+    # How much of the ideal (continuity/critical) speed-up is actually realized.
+    # A bank-to-bank WEIR ponds the flow and approaches 1.0; a FREE-STANDING unit
+    # in an open creek lets water bypass/spill around it, so it realizes less
+    # (~0.7-0.85). This is the honest cost of "works in any creek" portability.
+    confinement: float = 1.0
     rho: float = RHO_WATER
+
+    @classmethod
+    def universal(cls, creek_depth: float, up_velocity: float,
+                  gather_width: float = 0.9, throat_width: float = 0.4,
+                  throat_depth: float = 0.15, confinement: float = 0.82, **kw):
+        """A free-standing unit with a FIXED gather width, for any creek that's
+        wider (and at least as deep) than it. The throat can't be deeper than the
+        water, so in shallow creeks the short rotor simply fills the depth."""
+        return cls(up_width=gather_width, up_depth=creek_depth,
+                   up_velocity=up_velocity, throat_width=throat_width,
+                   throat_depth=min(throat_depth, creek_depth),
+                   confinement=confinement, **kw)
 
     @property
     def creek_flow(self) -> float:
@@ -85,9 +102,18 @@ class FunnelIntake:
         return self.ideal_throat_velocity > self.critical_velocity
 
     @property
-    def throat_velocity(self) -> float:
-        """Actual throat speed — the smaller of the ideal and the critical cap."""
+    def capped_velocity(self) -> float:
+        """Ideal throat speed after the critical-velocity cap (before confinement)."""
         return min(self.ideal_throat_velocity, self.critical_velocity)
+
+    @property
+    def throat_velocity(self) -> float:
+        """Realized throat speed: the ideal speed-up scaled by confinement.
+
+        confinement=1.0 (walled weir) gives the full continuity/critical value;
+        a free-standing unit realizes only part of it as flow bypasses around it.
+        """
+        return self.up_velocity + self.confinement * (self.capped_velocity - self.up_velocity)
 
     @property
     def throat_froude(self) -> float:

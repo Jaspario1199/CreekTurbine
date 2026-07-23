@@ -55,6 +55,28 @@ def test_throughput_below_creek_flow_when_choked():
     assert fi.throughput < fi.creek_flow   # excess backs up / bypasses
 
 
+def test_confinement_derates_free_standing_unit():
+    # confinement=1.0 gives the full (walled) speed-up; <1 realizes less
+    walled = f.FunnelIntake(1.5, 0.3, 0.4, 0.4, 0.15, confinement=1.0)
+    free = f.FunnelIntake(1.5, 0.3, 0.4, 0.4, 0.15, confinement=0.8)
+    assert free.throat_velocity < walled.throat_velocity
+    assert free.throat_velocity > free.up_velocity  # still faster than ambient
+    # confinement=0 collapses to the bare ambient speed
+    none = f.FunnelIntake(1.5, 0.3, 0.4, 0.4, 0.15, confinement=0.0)
+    assert none.throat_velocity == pytest.approx(none.up_velocity)
+
+
+def test_universal_unit_fixed_gather_and_depth_cap():
+    # throat can't be deeper than the water
+    shallow = f.FunnelIntake.universal(creek_depth=0.15, up_velocity=0.4)
+    assert shallow.throat_depth == pytest.approx(0.15)
+    assert shallow.up_width == pytest.approx(0.9)   # fixed gather width
+    deep = f.FunnelIntake.universal(creek_depth=0.6, up_velocity=0.4)
+    assert deep.throat_depth == pytest.approx(0.15)  # short rotor, capped nominal
+    # deeper water gathers more flow -> more power from the same unit
+    assert deep.electrical_power() > shallow.electrical_power()
+
+
 def test_throat_width_for_velocity_respects_critical():
     q = 0.18
     # ask for 3 m/s at 0.15 m depth — impossible (critical ~1.21), so it sizes

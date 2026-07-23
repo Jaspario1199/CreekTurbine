@@ -51,6 +51,46 @@ A **0.40 m/s** creek, **1.5 m wide × 0.30 m deep** (Q ≈ 180 L/s), funneled to
 So a funnel turns a mellow, 6-inch creek from "charges nothing" into "tops up a
 laptop and your phones every day." That is the whole game.
 
+## Two ways to funnel — and the honest cost of "works in any creek"
+
+There's a real fork here:
+
+- **Bank-to-bank weir (site-specific):** walls reach both banks, so *all* the flow
+  must go through the throat. It ponds up and reaches the full choke-to-critical
+  speed-up — the big numbers above. But it's a fixed structure built for one spot.
+- **Free-standing universal unit (portable):** a self-contained funnel with a
+  **fixed intake width** (angled wing-walls that gather a set swath) that you drop
+  into *any* creek wider than its mouth. Water outside the mouth simply flows
+  around — which is also why it realizes **less** than the ideal speed-up: with an
+  open bypass beside it, some gathered flow spills back out instead of forcing
+  through. The model captures this with a **`confinement`** factor (~0.82 for a
+  free-standing unit; 1.0 for a walled weir).
+
+### A universal unit for any creek ≥ 4 ft wide
+
+Give it a **0.9 m (3 ft) gather mouth** and it fits any creek wider than ~4 ft
+(3 ft mouth + margin), using only part of a wider creek's width — exactly what you
+want. Its power then depends on **depth**, because it funnels the *full* approach
+depth down into the short (6-inch) rotor throat:
+
+```bash
+python -m scripts.funnel --universal --up-vel 0.4 --gather-width 0.9
+```
+
+A **mellow 0.4 m/s** creek, free-standing unit (0.82 confinement):
+
+| Water depth | Throat speed | Power | Per day | Laptop charges/day |
+|---|---|---|---|---|
+| 6 in (0.5 ft) | 0.81 m/s | 1.7 W | 30 Wh | 0.4 (continuity) |
+| 1 ft | 1.07 m/s | 3.8 W | 69 Wh | **1.0** (choked) |
+| 1.5–3 ft | 1.07 m/s | 3.8 W | 69 Wh | **1.0** (choked) |
+
+So the universal unit **charges a laptop daily in ≥ ~1 ft of water** and derates
+gracefully to ~0.4/day at the 6-inch extreme. Once it chokes (~1 ft+), deeper water
+doesn't add more — the throat is capped at critical × confinement — so the ceiling
+for the free-standing form is ~4 W here. To push past it at a chosen site, add
+**temporary bank wing-walls** (confinement → 1.0 gives ~5.6 W) or a bigger throat.
+
 ## The catches (be honest before you dig)
 
 - **It's a small weir, not a drop-in.** To stop water bypassing, the funnel walls
