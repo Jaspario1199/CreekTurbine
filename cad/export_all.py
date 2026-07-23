@@ -22,6 +22,13 @@ PARTS = [
     "mag_coupling_disc",
     "bulkhead",
     "trash_rack",
+    "cage_ring_top",
+    "cage_ring_bottom",
+    "housing_upper",
+    "lid_handle",
+    "skid_base",
+    "funnel_wing",
+    "magnet_cover",
 ]
 
 

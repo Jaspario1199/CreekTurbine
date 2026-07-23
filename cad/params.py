@@ -90,18 +90,83 @@ MAGDISC_DIA = 2 * MAG_MEAN_RADIUS + MAG_DIA + 12.0   # mm, disc outer diameter
 MAGDISC_THK = MAG_THK + 3.0                          # mm, magnet depth + back wall
 
 # --- Bulkhead / sealing plate (the non-magnetic wall the coupling drives through)
-# NON-MAGNETIC material only (polycarbonate, fiberglass, aluminium/316) — never
-# plain steel, which shorts the magnetic flux. Thin at the CENTER (that thickness
-# is part of the coupling gap — keep it small); thick, bolted, O-ring-sealed rim.
-BULKHEAD_DIA = MAGDISC_DIA + 30.0        # mm, outer diameter (flange beyond the discs)
+# NON-MAGNETIC material only (cut from polycarbonate/FR4 sheet; the STEP is the
+# drill template) — never plain steel, which shorts the flux. Thin at the CENTER
+# (that thickness is part of the coupling gap); thick, bolted, O-ring rim.
+# NOTE: flange widened +8 mm after the detailing pass caught the O-ring groove
+# colliding with the bolt holes (CRITIQUE.md #19) — groove now sits 8 mm inboard.
+BULKHEAD_DIA = MAGDISC_DIA + 38.0        # mm, outer diameter (flange beyond the discs)
 BULKHEAD_CENTER_THK = 2.0                # mm, thin membrane the magnets couple through
 BULKHEAD_FLANGE_THK = 8.0                # mm, thick sealing rim
 BULKHEAD_MEMBRANE_DIA = MAGDISC_DIA + 8.0  # mm, thin zone covering the magnet ring
 BULKHEAD_BOLTS = 8                       # clamp bolts around the rim
-BULKHEAD_BOLT_CIRCLE = BULKHEAD_DIA - 14.0  # mm
-BULKHEAD_ORING_MEAN = MAGDISC_DIA + 18.0    # mm, O-ring groove mean diameter
+BULKHEAD_BOLT_CIRCLE = BULKHEAD_DIA - 14.0  # mm (= 161 with defaults)
+BULKHEAD_ORING_MEAN = MAGDISC_DIA + 13.0    # mm, O-ring groove mean diameter
 BULKHEAD_ORING_W = 3.0                   # mm, groove width (for a ~2.5 mm O-ring)
 BULKHEAD_ORING_DEPTH = 2.0               # mm, groove depth
+
+# ===========================================================================
+# FULL-UNIT PARTS — one consistent dimensional chain, rotor outward:
+#   blade -> end plate (ROTOR_DIA+30) -> housing bore (+6 clearance) -> shell
+#   -> cage rings (columns OUTSIDE the plate swing) -> skid -> wings.
+# Change ROTOR_DIA/ROTOR_HEIGHT and everything re-derives.
+# ===========================================================================
+
+# --- Dry housing (upper canister: generator, battery, electronics, outlets) ---
+HOUSING_WALL = 4.0                     # mm, shell wall
+HOUSING_ID = PLATE_DIA + 6.0           # mm, bore clears the spinning end plates
+HOUSING_OD = HOUSING_ID + 2 * HOUSING_WALL
+HOUSING_DRY_H = 350.0                  # mm, dry section height
+HOUSING_FLOOR_THK = 6.0                # mm, sealed floor the bulkhead clamps under
+HOUSING_FLOOR_OPEN = BULKHEAD_MEMBRANE_DIA + 1.0  # mm, coupling window in the floor
+HOUSING_FLANGE_OD = HOUSING_OD + 20.0  # mm, top lid flange
+HOUSING_LID_BOLTS = 6
+HOUSING_LID_BC = HOUSING_OD + 10.0     # mm, lid bolt circle
+PANEL_CUT_W = 60.0                     # mm, side cutout for the USB/12V outlet panel
+PANEL_CUT_H = 40.0
+
+# --- Lid with carry handle ---------------------------------------------------
+LID_THK = 6.0
+LID_LIP_DEPTH = 6.0                    # registers inside the shell bore
+HANDLE_BAR_DIA = 24.0                  # mm, comfortable grip
+HANDLE_SPAN = 140.0                    # mm, between posts
+HANDLE_CLEAR = 60.0                    # mm, knuckle room under the bar
+
+# --- Rotor cage (wet section: open frame the rotor spins in) -----------------
+# Two printed rings + 4 BOUGHT columns (20 mm aluminium square tube, cut to
+# CAGE_COL_LEN) — a 600 mm one-piece cage is unprintable, tube is stiffer anyway.
+CAGE_COL = 20.0                        # mm, square column tube size
+CAGE_COL_COUNT = 4
+CAGE_COL_R = PLATE_DIA / 2 + 4.0 + CAGE_COL / 2   # mm, centres OUTSIDE plate swing
+CAGE_RING_OD = 2 * (CAGE_COL_R + CAGE_COL / 2 + 6.0)  # mm, rim beyond the sockets
+CAGE_RING_THK = 8.0
+CAGE_SOCKET_DEPTH = 15.0               # mm, column pocket in each ring
+CAGE_SOCKET_CLEAR = 0.4                # mm, tube slip fit
+CAGE_COL_LEN = ROTOR_HEIGHT + 64.0     # mm, rotor + plates/hubs + bearing room
+BEARING_OD = 22.0                      # mm, flanged bearing seat in the bottom boss
+
+# --- Skid / ballast base -----------------------------------------------------
+SKID_SIZE = CAGE_RING_OD + 30.0        # mm, square footprint
+SKID_THK = 8.0
+SKID_RUNNER_W = 24.0                   # mm, two sacrificial UHMW-replaceable runners
+SKID_RUNNER_H = 15.0
+TRAY_WALL_T = 3.0                      # mm, ballast tray wall on top
+TRAY_WALL_H = 18.0
+STAKE_HOLE = 10.0                      # mm, corner stake-down holes
+CAGE_BOLT_R = CAGE_RING_OD / 2 - 12.0  # mm, cage-to-skid bolt radius (4x M5)
+
+# --- Funnel wing wall (print/cut 2 — same part, one flipped) -----------------
+WING_LEN = 500.0                       # mm, panel length
+WING_H = 350.0                         # mm, panel height (= funnel intake height)
+WING_THK = 6.0
+WING_FLANGE_W = 30.0                   # mm, L-return that bolts to a cage column
+WING_STAKE_SLOT = (12.0, 35.0)         # mm, stake slots near the outer end
+WING_RIB = (12.0, 8.0)                 # mm, horizontal stiffener (w, t)
+
+# --- Magnet cover (seals the WET coupling disc's magnet faces) ---------------
+MAGCOVER_DIA = MAGDISC_DIA + 2.0
+MAGCOVER_THK = 1.2                     # bonded over the potted magnets
+MAGCOVER_HOLE = HUB_DIA + 4.0
 
 # --- Trash rack / intake screen (sheds debris — the top field-failure) ------
 RACK_DIA = 160.0           # mm, screen outer diameter (size to your intake)

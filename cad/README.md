@@ -1,5 +1,11 @@
 # CAD — the printed & cut structure
 
+**The complete unit is modeled** — every physical piece of the machine, on one
+parametric dimensional chain (blade → end plate → housing bore → cage → skid),
+so changing `ROTOR_DIA`/`ROTOR_HEIGHT` re-derives everything:
+
+![Full unit assembly](../docs/images/cad_assembly.png)
+
 The Savonius rotor's **scoops** are cut from cheap PVC pipe or sheet (not
 printed). What's parametric here is the **structure that holds them and carries
 the shaft up to the dry generator**:
@@ -13,6 +19,14 @@ the shaft up to the dry generator**:
 | `bulkhead` | The sealed wall the coupling drives through: thin center membrane + bolted, O-ring-grooved rim. | **Don't print it** — it's a flat disc: **cut from 3 mm PC/acrylic/FR4 sheet** using the STEP as a drill template. **NON-MAGNETIC only** — never plain steel. |
 | `trash_rack` | Barred intake screen that sheds debris (the #1 field failure). Print **1+**. | PETG/ASA; angle it downstream-leaning. Size open area via `siting.screen_*`. |
 | `generator_mount` | Top plate the PMA bolts to, standing above the waterline on legs. | PETG, 5+ walls. |
+| `cage_ring_top` | Top of the open wet cage: sockets the 4 columns, carries the shared 8-bolt clamp circle (cage → bulkhead → housing floor in one stack). Print **1**. | PETG/ASA, 5+ walls. |
+| `cage_ring_bottom` | Cage base disc: column sockets, raised lower-bearing boss (silt has to climb), drain holes, skid bolt circle. Print **1**. | PETG/ASA. Bearing seat = `BEARING_OD` flanged stainless. |
+| *(cage columns)* | **BUY, don't print**: 4 × 20 mm aluminium square tube cut to `CAGE_COL_LEN` — stiffer and cheaper than any print, and a 600 mm part fits no bed. | Hacksaw + deburr; clamp screws hold them. |
+| `housing_upper` | The dry canister: sealed floor (bulkhead clamps under it), shell, lid flange, outlet-panel cutout. Print in sections **or roll from HDPE/PVC pipe** (STEP = cut/drill template). | Ø384 — pipe/sheet at full size. |
+| `lid_handle` | Gasketed lid + the carry handle (takes the unit's full weight — thick bar, wide posts). Print **1**. | PETG/ASA, high infill in the posts. |
+| `skid_base` | Skid + ballast tray: sacrificial runners underneath (cut from UHMW ideally), perimeter ballast tray, cage bolts, corner stake + tether holes. | Runners = replaceable wear parts. |
+| `funnel_wing` | Converging-intake wing wall (make **2**, one flipped): mounting flange to a cage column, mid-height rib, stake slots. | **Cut from 6 mm HDPE sheet** at full size (STEP = template); print for small units. |
+| `magnet_cover` | Thin bonded cover disc sealing the WET coupling disc's potted magnets — the marine barrier, not a glue dab. Print **1** (or cut from 1 mm PC). | Bond in wet epoxy over the potted face. |
 
 Load-bearing, permanently-wet parts — the **shaft, fasteners, bearings** — are
 **metal (stainless)**, never printed.

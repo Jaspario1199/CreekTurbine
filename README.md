@@ -179,10 +179,13 @@ scripts/
   funnel.py          # model a converging chute for a mellow/shallow creek
   demo_sim.py        # render the whole picture book to ./output
 cad/
-  params.py          # printed-part dimensions (mm) — edit to match your hardware
-  parts/             # helical blade, end plates, mag-coupling discs, bulkhead,
-                     #   trash rack, shaft coupler, generator mount (parametric)
-  export_all.py      # -> cad/step/*.step + cad/stl/*.stl
+  params.py          # ONE dimensional chain (mm): rotor -> plates -> housing -> skid
+  parts/             # THE COMPLETE UNIT, 14 parametric parts: helical blade
+                     #   (segmented printable), grooved end plates, mag-coupling
+                     #   discs + magnet cover, bulkhead, cage rings, dry housing,
+                     #   lid+handle, skid/ballast base, funnel wings, trash rack,
+                     #   shaft coupler, generator mount
+  export_all.py      # -> cad/step/*.step + cad/stl/*.stl (all 14)
 tests/               # 46 checks on the physics/energy/generator/siting math
 docs/
   ARCHITECTURE.md    # how the pieces fit + design decisions
@@ -221,6 +224,10 @@ environmental** rules you must settle *before* building. See
 **Ready to build?** [docs/ASSEMBLY.md](docs/ASSEMBLY.md) is the full,
 phase-by-phase build order — plan in software → print/buy parts → rotor →
 sealed drivetrain → dry electronics → housing/intake → bench test → wet install.
+The **complete unit is CAD-modeled** (14 parametric parts on one dimensional
+chain — see [cad/README.md](cad/README.md)):
+
+![Full unit assembly](docs/images/cad_assembly.png)
 
 > ⚠️ **Before you build, read [docs/SAFETY.md](docs/SAFETY.md).** A hydro source
 > runs 24/7 and can't be switched off like a solar panel — it *needs* a charge

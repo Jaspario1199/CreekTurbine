@@ -38,6 +38,8 @@ change), **ACCEPTED** (known limit, stated honestly), **OPEN** (needs field data
 | 17 | Trash rack orientation/limits under-specified — a clogged rack *is* the blockage. | **DOCUMENTED** — mount angled, bars aligned with flow, sized via `siting.screen_*`; clean-by-design expectations in [FUNNEL.md](FUNNEL.md). |
 | 18 | Funnel throat concentrates debris — clog rate scales with the speed-up. | **ACCEPTED + DOCUMENTED** — the trash rack is **mandatory** with a funnel; maintenance interval is site-dependent (OPEN: measure it). |
 
+| 19 | **Bulkhead O-ring groove collided with its bolt holes** (groove Ø153.5–156.5 vs bolt holes spanning Ø150.25–155.75) — found while detailing the full-unit CAD; the part would not have sealed. | **FIXED-IN-CODE** — flange widened +8 mm, groove moved 8 mm inboard of the bolt circle; part re-exported. A good example of why the hyper-detail pass exists. |
+
 ## What deliberately remains open (needs a wet prototype, not more modeling)
 
 1. Field-calibrated funnel `confinement` (float test through the throat).
