@@ -6,11 +6,12 @@ deliberately rather than by surprise.
 
 | Phase | What | Cost |
 |------|------|------|
-| **0** ✅ | Physics & sizing engine, rotor/generator/energy models, simulator, tests, parametric CAD | Free (software) |
-| **1** | Measure your creek in 2+ seasons; lock rotor size & generator Ke; dry-fit the CAD | ~$0 |
-| **2** | Bench build: rotor + generator on a stand, spin it (drill/by hand), confirm cut-in & charging into a battery | 💰 the generator + battery |
-| **3** | Wet install: frame, anchoring, trash rack, dump load, sealed electronics; measure real output | 💰 the full build (~$250–450) |
-| **4** | Flow augmentation (chute/shroud) + survival hardening for floods & winter | 💰 iteration |
+| **0** ✅ | Physics & sizing engine, all subsystem models, simulator, 115 tests | Free (software) |
+| **0.5** ✅ | Research (verified), red-team audit (19 findings closed), **Mk1 design freeze** ([SPEC.md](SPEC.md)) + **complete CAD** (14 parts + positioned assembly) | Free (software) |
+| **1** | Measure your creek in 2+ seasons; print/cut parts; buy the BOM | ~$0 + parts |
+| **2** | Bench tests **B1–B5** ([TEST_PROTOCOL.md](TEST_PROTOCOL.md)): cut-in, coupling slip, drag, watertightness, idle draw | 💰 generator + battery |
+| **3** | Wet install + field tests **F1–F4**: confinement & Cp calibration, 72 h soak | 💰 full build (~$300–480) |
+| **4** | Iterate on calibration data; seasonal hardening (floods, winter) | 💰 iteration |
 
 ## What's built today (Phase 0)
 

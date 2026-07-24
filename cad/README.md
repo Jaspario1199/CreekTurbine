@@ -6,6 +6,11 @@ so changing `ROTOR_DIA`/`ROTOR_HEIGHT` re-derives everything:
 
 ![Full unit assembly](../docs/images/cad_assembly.png)
 
+**Base assembly model:** `python -m cad.assembly` exports the positioned 28-part
+assembly — **`cad/step/_assembly.step`** (named parts; open in FreeCAD, Fusion,
+Onshape, any STEP viewer) and `cad/stl/_assembly.stl` (single mesh). Bought
+items (columns, shaft, generator, battery) are included as labeled solids.
+
 The Savonius rotor's **scoops** are cut from cheap PVC pipe or sheet (not
 printed). What's parametric here is the **structure that holds them and carries
 the shaft up to the dry generator**:

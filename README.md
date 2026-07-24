@@ -4,11 +4,12 @@ A DIY **hydrokinetic** turbine you can drop into a creek — an "underwater wind
 turbine" that harvests the *kinetic* energy of the moving stream to trickle-charge
 a battery. No dam, no vertical drop, removable before floods.
 
-> **Status: Phase 0 — the honest-numbers toolkit.** A config-driven physics
-> engine sizes a turbine for *your* creek, matches a generator, sizes a battery,
-> and tells you what it can actually run — today, with **zero hardware**. You only
-> fill in three things you measure with a tape and a stopwatch. Parametric CAD for
-> the printed parts is included and exports clean STEP/STL.
+> **Status: Mk1 DESIGN FROZEN — [docs/SPEC.md](docs/SPEC.md).** Every design
+> decision is locked with rationale; the **complete unit is CAD-modeled** (14
+> parametric parts + a positioned 28-part assembly, `cad/step/_assembly.step`);
+> the physics engine (115 tests), verified rotor research, 19-finding red-team
+> audit, and bench/field test protocol are all in. Next milestone: the wet
+> prototype ([docs/TEST_PROTOCOL.md](docs/TEST_PROTOCOL.md)).
 
 ```bash
 pip install -r requirements.txt
